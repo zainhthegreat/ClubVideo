@@ -1,0 +1,14 @@
+{
+    "AppSyncApiName": "flutter3",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authflutter3",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "AuthModeLastUpdated": "2022-02-18T10:38:17.433Z",
+    "S3DeploymentBucket": "amplify-flutter3-staging-153730-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/55d1877145eb7817126881718f677a7cf603cb69"
+}
