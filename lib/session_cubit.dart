@@ -21,7 +21,9 @@ class SessionCubit extends Cubit<SessionState>{
 
   attemptAutoLogin() async {
     try{
-      final userID = await authRepo.attemptAutoLogin();
+
+      String? temp= await authRepo.attemptAutoLogin();
+      final userID = temp.toString();
 
       // if(userID == null){
       //   emit(UnauthenticatedSessionState());

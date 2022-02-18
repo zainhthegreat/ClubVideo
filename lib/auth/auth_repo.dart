@@ -1,5 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 
 class AuthRepo {
   Future<String> getUserIDFromAttributes() async {
@@ -7,7 +7,7 @@ class AuthRepo {
       final attributes = await Amplify.Auth.fetchUserAttributes();
 
       final userID = attributes
-          .firstWhere((element) => element.userAttributeKey == 'sub')
+          .firstWhere((element) => element.userAttributeKey.toString() == 'sub')
           .value;
 
       return userID;
@@ -26,9 +26,10 @@ class AuthRepo {
         throw Exception(null);
       }
 
-      return (await getUserIDFromAttributes());
+      String res= await getUserIDFromAttributes();
+      return (res);
 
-    }on Exception catch (e) {
+    }on Exception {
 
       rethrow;
     }
@@ -73,7 +74,7 @@ class AuthRepo {
       final result = await Amplify.Auth.signUp(
         username: email.trim(),
         password: password.trim(),
-        options: CognitoSignUpOptions(userAttributes: {'email': email.trim()}),
+        options: CognitoSignUpOptions(userAttributes: {CognitoUserAttributeKey.email: email.trim()}),
       );
 
       return result.isSignUpComplete;

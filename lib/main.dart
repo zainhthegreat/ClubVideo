@@ -1,5 +1,7 @@
+import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'amplifyconfiguration.dart';
 import 'app_navigator.dart';
 import 'auth/auth_repo.dart';
 import 'loading_view.dart';
+import 'models/ModelProvider.dart';
 
 
 Future main() async {
@@ -24,7 +27,7 @@ Future main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 
@@ -81,13 +84,18 @@ class _MyAppState extends State<MyApp> {
     try {
       AmplifyStorageS3 storage = AmplifyStorageS3();
       AmplifyAuthCognito auth = AmplifyAuthCognito();
-      Amplify.addPlugins([auth, storage]);
+      AmplifyDataStore datastorePlugin = AmplifyDataStore(modelProvider: ModelProvider.instance);
+      Amplify.addPlugins([auth, storage, datastorePlugin, AmplifyAPI()]);
+
 
       await Amplify.configure(amplifyconfig);
 
+
+
+
       setState(() => _isAmplifyConfigured = true);
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 }

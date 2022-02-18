@@ -1,6 +1,9 @@
+
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Media/Videos/videos_cubit.dart';
+import 'package:video_aws/models/ModelProvider.dart';
 
 
 import 'homepage_bloc.dart';
@@ -84,7 +87,17 @@ class _HomePageState extends State<HomePage> {
                         ),
 
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () async {
+
+                            final updatedItem = File(
+                                Name: "Lorem ipsum dolor sit amet",
+                                Type: FileType.VIDEO,
+                                category: "Lorem ipsum dolor sit amet",
+                                description: "Lorem ipsum dolor sit amet",
+                                ownerID: "Lorem ipsum dolor sit amet",
+                                Grade: 1020);
+                            await Amplify.DataStore.save(updatedItem);
+
                             context.read<VideosCubit>().showZoneMenu();
                           },
 
