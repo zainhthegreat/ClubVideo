@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
+                          side: const BorderSide(
                             color: Colors.orange,
                             width: 2,
                           ),
@@ -88,15 +88,6 @@ class _HomePageState extends State<HomePage> {
 
                         child: GestureDetector(
                           onTap: () async {
-
-                            final updatedItem = File(
-                                Name: "Lorem ipsum dolor sit amet",
-                                Type: FileType.VIDEO,
-                                category: "Lorem ipsum dolor sit amet",
-                                description: "Lorem ipsum dolor sit amet",
-                                ownerID: "Lorem ipsum dolor sit amet",
-                                Grade: 1020);
-                            await Amplify.DataStore.save(updatedItem);
 
                             context.read<VideosCubit>().showZoneMenu();
                           },

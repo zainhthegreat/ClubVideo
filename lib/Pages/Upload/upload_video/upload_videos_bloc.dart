@@ -74,19 +74,3 @@ class UploadVideoBloc extends Bloc<UploadVideoEvent, UploadVideoState> {
       }
   }
 }
-
-  void configureAmplify() async {
-    // First add plugins (Amplify native requirements)
-    AmplifyStorageS3 storage = AmplifyStorageS3();
-
-    AmplifyAuthCognito auth = AmplifyAuthCognito();
-    Amplify.addPlugins([auth, storage]);
-
-    try {
-      // Configure
-      await Amplify.configure(amplifyconfig);
-    } on AmplifyAlreadyConfiguredException {
-      print(
-          'Amplify was already configured. Looks like app restarted on android.');
-    }
-  }
