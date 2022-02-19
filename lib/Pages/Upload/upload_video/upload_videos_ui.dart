@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Media/Videos/videos_cubit.dart';
@@ -16,11 +15,10 @@ class UploadVideo extends StatefulWidget {
 class _UploadVideoState extends State<UploadVideo> {
   late TextEditingController _nameController;
   late TextEditingController _gradoController;
-
+  String dropdownValue = '4';
   late TextEditingController _descController;
   bool uploadValidVideo = false;
   bool uploadValidImage = false;
-
 
   @override
   void initState() {
@@ -44,14 +42,11 @@ class _UploadVideoState extends State<UploadVideo> {
 
   @override
   Widget build(BuildContext context) {
-
     ScrollController _controller = new ScrollController();
-
 
     return BlocListener<UploadVideoBloc, UploadVideoState>(
       listener: (BuildContext context, state) {
-
-        if(state.uploaded == true){
+        if (state.uploaded == true) {
           const snackBar = SnackBar(
             content: Text('ÉXIT: Video upload'),
             backgroundColor: Colors.orange,
@@ -62,31 +57,25 @@ class _UploadVideoState extends State<UploadVideo> {
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/bgdibujos.jpg'),
-
-                fit: BoxFit.cover
-            )
-        ),
+                image: AssetImage('assets/bgdibujos.jpg'), fit: BoxFit.cover)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-
-
           appBar: AppBar(
             backgroundColor: Colors.orangeAccent,
             iconTheme: IconThemeData(color: Colors.white),
-
             leading: IconButton(
-              icon: Icon (Icons.arrow_back_ios_rounded,
-                size: 31,),
+              icon: Icon(
+                Icons.arrow_back_ios_rounded,
+                size: 31,
+              ),
               onPressed: () {
                 context.read<VideosCubit>().showMenuUploadVideos();
               },
             ),
-
-            title: const Text (
+            title: const Text(
               "Upload Video",
-              style: TextStyle (
-                  fontSize: 25 ,
+              style: TextStyle(
+                  fontSize: 25,
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
@@ -95,23 +84,18 @@ class _UploadVideoState extends State<UploadVideo> {
             toolbarHeight: 70,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(50),
-                )
-            ),
+              bottomLeft: Radius.circular(0),
+              bottomRight: Radius.circular(50),
+            )),
           ),
-          
-          
           body: ListView(
             controller: _controller,
-
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 25, left: 25, right: 25),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -138,13 +122,14 @@ class _UploadVideoState extends State<UploadVideo> {
                             ),
                           ],
                         ),
-
-                        SizedBox(width: 10,),
-
+                        SizedBox(
+                          width: 10,
+                        ),
                         Stack(
                           children: <Widget>[
                             // Stroked text as border.
-                            Text(context.read<UploadVideoBloc>().category,
+                            Text(
+                              context.read<UploadVideoBloc>().category,
                               style: TextStyle(
                                 fontSize: 25,
                                 foreground: Paint()
@@ -154,7 +139,8 @@ class _UploadVideoState extends State<UploadVideo> {
                               ),
                             ),
                             // Solid text as fill.
-                            Text(context.read<UploadVideoBloc>().category,
+                            Text(
+                              context.read<UploadVideoBloc>().category,
                               style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -165,7 +151,6 @@ class _UploadVideoState extends State<UploadVideo> {
                       ],
                     ),
 
-
                     ///FotoView
                     Container(
                       margin: EdgeInsets.only(top: 30),
@@ -173,22 +158,21 @@ class _UploadVideoState extends State<UploadVideo> {
                       width: 100,
                       decoration: BoxDecoration(
                           color: Colors.orange,
-                          borderRadius: BorderRadius.circular(20)
-                      ),
+                          borderRadius: BorderRadius.circular(20)),
                     ),
 
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 30,
+                    ),
 
                     Container(
-
                       child: TextField(
                         controller: _nameController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Name video',
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
                         ),
-
                       ),
                     ),
 
@@ -198,7 +182,6 @@ class _UploadVideoState extends State<UploadVideo> {
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -206,15 +189,16 @@ class _UploadVideoState extends State<UploadVideo> {
                             ElevatedButton(
                               onPressed: () {
                                 context.read<UploadVideoBloc>().add(
-                                  FilePickerUploadVideoButtonClickedEvent(),
+                                      FilePickerUploadVideoButtonClickedEvent(),
                                     );
                                 setState(() {
                                   uploadValidVideo = true;
-
                                 });
                               },
                               child: const Text('Select Video'),
-                            ), ///select video
+                            ),
+
+                            ///select video
 
                             const SizedBox(
                               width: 10,
@@ -223,81 +207,122 @@ class _UploadVideoState extends State<UploadVideo> {
                             ElevatedButton(
                               onPressed: () {
                                 context.read<UploadVideoBloc>().add(
-                                  ImageFilePickerUploadVideoButtonClickedEvent(),
-                                );
+                                      ImageFilePickerUploadVideoButtonClickedEvent(),
+                                    );
                                 setState(() {
                                   uploadValidImage = true;
                                 });
                               },
                               child: const Text('Select Image'),
-                            ), ///Select Image
-
-                          ],
-                        ),
-
-                        SizedBox(width: 20,),
-
-                        Column(
-                          children: [
-
-                            Container(
-                              width: 60,
-                              height: 38,
-                              child: TextField(
-
-                                controller: _gradoController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Grado',
-                                  floatingLabelBehavior: FloatingLabelBehavior.always
-                                ),
-                              ),
                             ),
 
-                            SizedBox(height: 10,),
+                            ///Select Image
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: 60,
+                              height: 38,
+                              child: DropdownButton<String>(
+                                elevation: 16,
+                                value: dropdownValue,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    dropdownValue = newValue!;
+                                  });
+                                },
+                                items: <String>[
+                                  '4',
+                                  '5',
+                                  '5+',
+                                  '6a',
+                                  '6a+',
+                                  '6b',
+                                  '6b+',
+                                  '6c',
+                                  '6c+',
+                                  '7a',
+                                  '7a+',
+                                  '7b',
+                                  '7b+'
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                              // child: TextField(
+                              //
+                              //   controller: _gradoController,
+                              //   decoration: const InputDecoration(
+                              //     border: OutlineInputBorder(),
+                              //     labelText: 'Grado',
+                              //     floatingLabelBehavior: FloatingLabelBehavior.always
+                              //   ),
+                              // ),
+                            ),
 
+                            const SizedBox(
+                              height: 10,
+                            ),
 
                             ElevatedButton(
                               onPressed: () {
-
                                 if (_nameController.text.isNotEmpty &&
-                                    uploadValidVideo == true && _gradoController.text.isNotEmpty &&
+                                    uploadValidVideo == true &&
+                                    _gradoController.text.isNotEmpty &&
                                     uploadValidImage == true) {
-                                context.read<UploadVideoBloc>().add(
-                                  UploadVideoButtonClickedEvent(
-                                      fileName: _nameController.text,
-                                      grado: _gradoController.text,
-                                      desc: _descController.text,
-                                      category: ''),
-                                );
+                                  context.read<UploadVideoBloc>().add(
+                                        UploadVideoButtonClickedEvent(
+                                            fileName: _nameController.text,
+                                            grado: _gradoController.text,
+                                            desc: _descController.text,
+                                            category: ''),
+                                      );
 
-                                const snackBar = SnackBar(
-                                  content: Text('Uploading video, please wait...'),
-                                  backgroundColor: Colors.orange,
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  const snackBar = SnackBar(
+                                    content:
+                                        Text('Uploading video, please wait...'),
+                                    backgroundColor: Colors.orange,
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
 
-                                setState(() {
-                                  uploadValidVideo = false;
-                                  uploadValidImage = false;
+                                  setState(() {
+                                    uploadValidVideo = false;
+                                    uploadValidImage = false;
 
-                                  _nameController.clear();
-                                  _gradoController.clear();
+                                    _nameController.clear();
+                                    _gradoController.clear();
 
-                                  _descController.clear(); ///BO
-                                });
+                                    _descController.clear();
+
+                                    ///BO
+                                  });
                                 }
                               },
                               child: const Text('Upload Video'),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                    uploadValidVideo == true&&uploadValidImage == true ? Colors.orange : Colors.grey),
+                                    uploadValidVideo == true &&
+                                            uploadValidImage == true
+                                        ? Colors.orange
+                                        : Colors.grey),
                               ),
-                            ), ///Upload video
+                            ),
+
+                            ///Upload video
                           ],
                         ),
                       ],
-                    ),///Botons
+                    ),
+
+                    ///Botons
                   ],
                 ),
               ),
@@ -308,4 +333,3 @@ class _UploadVideoState extends State<UploadVideo> {
     );
   }
 }
-

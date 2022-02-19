@@ -11,12 +11,18 @@ class ZoneVideosBloc extends Bloc<ZoneVideosEvent, ZoneVideosState>{
   String category = "";
 
 
-  ZoneVideosBloc({required this.dataRepo, required this.category,}) : super(ZoneVideosState(categories: [], videos: [], videosNames: [], grados: [])){
+  ZoneVideosBloc({required this.dataRepo, required this.category,}) : super(ZoneVideosState(
+      categories: [], videos: [], videosNames: [], grados: [],
+      searchedVideos: [], searchedVideosGrados: [])){
 
     on<DeleteVideoZoneButtonClickedEvent>(_onDeleteVideoButtonClickedEvent);
     on<CategoryClickedZoneVideosEvent>(_getVideosInACategoryZoneVideo);
     on<GetZoneVideosEvent>(_getZoneVideos);
     on<GetZoneVideosEventGRADO>(_getVideoZoneGRADO);
+    on<ToggleSearching>(_toggleSearching);
+    on<SearchKeywordChanged>(_searchKeywordChanged);
+    on<Search>(_search);
+    on<SearchByEvent>(_searchByChanged);
   }
 
 
@@ -79,4 +85,50 @@ class ZoneVideosBloc extends Bloc<ZoneVideosEvent, ZoneVideosState>{
     emit(state.copyWith(totalGrados: grados.length, grados: grados, ));
   }
 
+
+  FutureOr<void> _toggleSearching(ToggleSearching event, Emitter<ZoneVideosState> emit) {
+    if(state.isSearching){
+      emit(state.copyWith(isSearching: false));
+    }
+    else{
+      emit(state.copyWith(isSearching: true));
+    }
+  }
+
+  FutureOr<void> _searchKeywordChanged(SearchKeywordChanged event, Emitter<ZoneVideosState> emit) {
+    emit(state.copyWith(searchedKeyword: event.value));
+  }
+
+
+
+  FutureOr<void> _search(Search event, Emitter<ZoneVideosState> emit) {
+
+    List<String> searchedVideos = [];
+    List<String> searchedVideosGrados = [];
+
+    if(state.searchBy == SearchBy.name) {
+
+      for (int i = 0; i < state.videos.length; i++) {
+        if (state.videos[i].contains(state.searchedKeyword)) {
+          searchedVideos.add(state.videos[i]);
+          searchedVideosGrados.add(state.grados[i]);
+        }
+      }
+    }
+    else  if(state.searchBy == SearchBy.grado){
+      for (int i = 0; i < state.videos.length; i++) {
+        if (state.grados[i] == event.grado) {
+          searchedVideos.add(state.videos[i]);
+          searchedVideosGrados.add(state.grados[i]);
+        }
+      }
+    }
+
+    emit(state.copyWith(searchedVideos: searchedVideos));
+    emit(state.copyWith(searchedVideosGrados: searchedVideosGrados));
+  }
+
+  FutureOr<void> _searchByChanged(SearchByEvent event, Emitter<ZoneVideosState> emit) {
+    emit(state.copyWith(searchBy: event.searchBy));
+  }
 }

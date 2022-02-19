@@ -35,6 +35,7 @@ class File extends Model {
   final String? _description;
   final String? _ownerID;
   final int? _Grade;
+  final String? _s3key;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -115,6 +116,10 @@ class File extends Model {
     }
   }
   
+  String? get s3key {
+    return _s3key;
+  }
+  
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -123,9 +128,9 @@ class File extends Model {
     return _updatedAt;
   }
   
-  const File._internal({required this.id, required Name, required Type, required category, description, required ownerID, required Grade, createdAt, updatedAt}): _Name = Name, _Type = Type, _category = category, _description = description, _ownerID = ownerID, _Grade = Grade, _createdAt = createdAt, _updatedAt = updatedAt;
+  const File._internal({required this.id, required Name, required Type, required category, description, required ownerID, required Grade, s3key, createdAt, updatedAt}): _Name = Name, _Type = Type, _category = category, _description = description, _ownerID = ownerID, _Grade = Grade, _s3key = s3key, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory File({String? id, required String Name, required FileType Type, required String category, String? description, required String ownerID, required int Grade}) {
+  factory File({String? id, required String Name, required FileType Type, required String category, String? description, required String ownerID, required int Grade, String? s3key}) {
     return File._internal(
       id: id == null ? UUID.getUUID() : id,
       Name: Name,
@@ -133,7 +138,8 @@ class File extends Model {
       category: category,
       description: description,
       ownerID: ownerID,
-      Grade: Grade);
+      Grade: Grade,
+      s3key: s3key);
   }
   
   bool equals(Object other) {
@@ -150,7 +156,8 @@ class File extends Model {
       _category == other._category &&
       _description == other._description &&
       _ownerID == other._ownerID &&
-      _Grade == other._Grade;
+      _Grade == other._Grade &&
+      _s3key == other._s3key;
   }
   
   @override
@@ -168,6 +175,7 @@ class File extends Model {
     buffer.write("description=" + "$_description" + ", ");
     buffer.write("ownerID=" + "$_ownerID" + ", ");
     buffer.write("Grade=" + (_Grade != null ? _Grade!.toString() : "null") + ", ");
+    buffer.write("s3key=" + "$_s3key" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -175,7 +183,7 @@ class File extends Model {
     return buffer.toString();
   }
   
-  File copyWith({String? id, String? Name, FileType? Type, String? category, String? description, String? ownerID, int? Grade}) {
+  File copyWith({String? id, String? Name, FileType? Type, String? category, String? description, String? ownerID, int? Grade, String? s3key}) {
     return File._internal(
       id: id ?? this.id,
       Name: Name ?? this.Name,
@@ -183,7 +191,8 @@ class File extends Model {
       category: category ?? this.category,
       description: description ?? this.description,
       ownerID: ownerID ?? this.ownerID,
-      Grade: Grade ?? this.Grade);
+      Grade: Grade ?? this.Grade,
+      s3key: s3key ?? this.s3key);
   }
   
   File.fromJson(Map<String, dynamic> json)  
@@ -194,11 +203,12 @@ class File extends Model {
       _description = json['description'],
       _ownerID = json['ownerID'],
       _Grade = (json['Grade'] as num?)?.toInt(),
+      _s3key = json['s3key'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'Name': _Name, 'Type': enumToString(_Type), 'category': _category, 'description': _description, 'ownerID': _ownerID, 'Grade': _Grade, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'Name': _Name, 'Type': enumToString(_Type), 'category': _category, 'description': _description, 'ownerID': _ownerID, 'Grade': _Grade, 's3key': _s3key, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "file.id");
@@ -208,6 +218,7 @@ class File extends Model {
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static final QueryField OWNERID = QueryField(fieldName: "ownerID");
   static final QueryField GRADE = QueryField(fieldName: "Grade");
+  static final QueryField S3KEY = QueryField(fieldName: "s3key");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "File";
     modelSchemaDefinition.pluralName = "Files";
@@ -270,6 +281,12 @@ class File extends Model {
       key: File.GRADE,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.int)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: File.S3KEY,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(

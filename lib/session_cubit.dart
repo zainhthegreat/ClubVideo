@@ -13,6 +13,7 @@ import 'auth/auth_repo.dart';
 class SessionCubit extends Cubit<SessionState>{
   final AuthRepo authRepo;
 
+
   SessionCubit({required this.authRepo}) : super(UnknownSessionState()){
     // signOut();
     attemptAutoLogin();
