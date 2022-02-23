@@ -586,6 +586,29 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     return items;
   }
 
+  Future<List<String>> listCategories(int name)
+  async{
+    List<String> categories =[];
+
+    try {
+      List<my_datastore.File> items = await Amplify.DataStore.query(my_datastore.File.classType, where: my_datastore.File.NAME.eq(name));
+
+      for(int i=0;i<items.length;i++)
+        {
+          if(!categories.contains(items.elementAt(i).category)) {
+            categories.add(items.elementAt(i).category);
+          }
+        }
+
+
+
+    } catch (e) {
+      print("Could not query DataStore: " + e.toString());
+    }
+
+    return categories;
+  }
+
 
 
   Future<String> getVideoLink(my_datastore.File item)
