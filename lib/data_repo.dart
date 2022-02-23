@@ -544,6 +544,50 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     return items;
   }
 
+  Future<List<my_datastore.File>> listFilesByGrade(int grade)
+  async{
+    List<my_datastore.File> items =[];
+
+    try {
+      items = await Amplify.DataStore.query(my_datastore.File.classType, where: my_datastore.File.GRADE.eq(grade));
+
+    } catch (e) {
+      print("Could not query DataStore: " + e.toString());
+    }
+
+    return items;
+  }
+
+  Future<List<my_datastore.File>> listFilesByName(int name)
+  async{
+    List<my_datastore.File> items =[];
+
+    try {
+      items = await Amplify.DataStore.query(my_datastore.File.classType, where: my_datastore.File.NAME.eq(name));
+
+    } catch (e) {
+      print("Could not query DataStore: " + e.toString());
+    }
+
+    return items;
+  }
+
+  Future<List<my_datastore.File>> listAll(int name)
+  async{
+    List<my_datastore.File> items =[];
+
+    try {
+      items = await Amplify.DataStore.query(my_datastore.File.classType);
+
+    } catch (e) {
+      print("Could not query DataStore: " + e.toString());
+    }
+
+    return items;
+  }
+
+
+
   Future<String> getVideoLink(my_datastore.File item)
   async{
     String str="";
@@ -580,6 +624,7 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     }
     return str;
   }
+
 
 
 
