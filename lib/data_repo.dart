@@ -530,7 +530,7 @@ async{
   return true;
 }
 
-Future<List<my_datastore.File>> ListFilesByCategory(String category)
+Future<List<my_datastore.File>> listFilesByCategory(String category)
   async{
     List<my_datastore.File> items =[];
 
