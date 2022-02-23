@@ -212,7 +212,10 @@ class _ZoneVideoState extends State<ZoneVideo> {
                       children: [
                         InkWell(
                           splashColor: Colors.orange,
-                          onTap: () {},
+                          onTap: () {
+                            context.read<VideosCubit>().watchVideo(category: "category", name: "",
+                                UIName: "UIName");
+                          },
                           child: Card(
                             elevation: 10,
                             color: Colors.orange.shade50,
@@ -280,7 +283,7 @@ class _ZoneVideoState extends State<ZoneVideo> {
                                     ),
                                   ],
                                 ),
-                                Expanded(child: const SizedBox()),
+                                const Expanded(child: SizedBox()),
                               ],
                             ),
                           ),

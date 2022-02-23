@@ -77,10 +77,10 @@ class _HomePageState extends State<HomePage> {
                       Card(
                         elevation: 10,
                         color: Colors.transparent,
-                        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
+                          side: const BorderSide(
                             color: Colors.orange,
                             width: 2,
                           ),
