@@ -497,7 +497,7 @@ async{
     final file = File(video!.files.first.path!);
     final UploadFileResult result = await Amplify.Storage.uploadFile(
       local: file,
-      key: item.s3key + "@" + item.createdAt.toString(),
+      key: item.s3key,
       options: S3UploadFileOptions(
         accessLevel: StorageAccessLevel.guest,
       ),
@@ -514,7 +514,7 @@ async{
       final file = File(photo.files.first.path!);
       final UploadFileResult result = await Amplify.Storage.uploadFile(
         local: file,
-        key: item.picsS3key! + "@" + item.createdAt.toString(),
+        key: item.picsS3key!,
         options: S3UploadFileOptions(
           accessLevel: StorageAccessLevel.guest,
         ),
