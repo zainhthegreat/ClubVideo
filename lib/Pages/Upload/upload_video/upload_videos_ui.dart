@@ -42,7 +42,7 @@ class _UploadVideoState extends State<UploadVideo> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController _controller = new ScrollController();
+    ScrollController _controller = ScrollController();
 
     return BlocListener<UploadVideoBloc, UploadVideoState>(
       listener: (BuildContext context, state) {
@@ -55,16 +55,16 @@ class _UploadVideoState extends State<UploadVideo> {
         }
       },
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/bgdibujos.jpg'), fit: BoxFit.cover)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.orangeAccent,
-            iconTheme: IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: Colors.white),
             leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios_rounded,
                 size: 31,
               ),
@@ -113,7 +113,7 @@ class _UploadVideoState extends State<UploadVideo> {
                               ),
                             ),
                             // Solid text as fill.
-                            Text(
+                            const Text(
                               'Zone :',
                               style: TextStyle(
                                 fontSize: 25,
@@ -122,7 +122,7 @@ class _UploadVideoState extends State<UploadVideo> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Stack(
@@ -141,7 +141,7 @@ class _UploadVideoState extends State<UploadVideo> {
                             // Solid text as fill.
                             Text(
                               context.read<UploadVideoBloc>().category,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
                               ),
@@ -153,7 +153,7 @@ class _UploadVideoState extends State<UploadVideo> {
 
                     ///FotoView
                     Container(
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       height: 100,
                       width: 100,
                       decoration: BoxDecoration(
@@ -161,18 +161,16 @@ class _UploadVideoState extends State<UploadVideo> {
                           borderRadius: BorderRadius.circular(20)),
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
 
-                    Container(
-                      child: TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Name video',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                        ),
+                    TextField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Name video',
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                       ),
                     ),
 

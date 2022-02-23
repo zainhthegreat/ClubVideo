@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_aws/Pages/watch_video/watch_video_bloc.dart';
 import 'package:video_aws/Pages/watch_video/watch_video_event.dart';
@@ -32,8 +33,8 @@ class _WatchVideoState extends State<WatchVideo> {
             child: state.url != ''
                 ? const RunPlayer()
                 : const CircularProgressIndicator(
-              color: Colors.black,
-            ),
+                    color: Colors.black,
+                  ),
           );
         },
       ),
@@ -51,70 +52,79 @@ class RunPlayer extends StatefulWidget {
 }
 
 class _RunPlayerState extends State<RunPlayer> {
-  late VideoPlayerController _controller;
+  final videoPlayerController = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
 
+  late var chewieController;
+
+  late var playerWidget;
 
   @override
   void initState() {
-
-
-
+    initController();
     super.initState();
-    _controller =
-    VideoPlayerController.network(context.read<WatchVideosBloc>().state.url)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+  }
+
+  void initController() async {
+    await videoPlayerController.initialize();
+
+    chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      autoPlay: true,
+      looping: true,
+    );
   }
 
   @override
   void dispose() {
-    // Ensure disposing of the VideoPlayerController to free up resources.
-    _controller.dispose();
-
+    videoPlayerController.dispose();
+    chewieController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _controller.value.isInitialized
-        ? Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 200,
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            ),
-          ),
-            const SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _controller.value.isPlaying
-                      ? _controller.pause()
-                      : _controller.play()
-                  ;
-
-                });
-                },
-
-
-            child: Icon(
-              _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-            ),
-          ),
-
-          ElevatedButton(onPressed: (){
-          _controller.seekTo(Duration(seconds: 10));
-
-          },
-            child: Icon(Icons.ac_unit_rounded))
-        ])
-            : const CircularProgressIndicator(
-          color: Colors.deepPurple,
-        );
-      }
-    }
+    return Chewie(
+      controller: chewieController,
+    );
+  }
+  // return _controller.value.isInitialized
+  //     ? Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       Container(
+  //         height: 200,
+  //         child: AspectRatio(
+  //           aspectRatio: _controller.value.aspectRatio,
+  //           child: VideoPlayer(_controller),
+  //         ),
+  //       ),
+  //         const SizedBox(height: 50),
+  //         ElevatedButton(
+  //           onPressed: () {
+  //             setState(() {
+  //               _controller.value.isPlaying
+  //                   ? _controller.pause()
+  //                   : _controller.play()
+  //               ;
+  //
+  //             });
+  //             },
+  //
+  //
+  //         child: Icon(
+  //           _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+  //         ),
+  //       ),
+  //
+  //       ElevatedButton(onPressed: (){
+  //       _controller.seekTo(Duration(seconds: 10));
+  //
+  //       },
+  //         child: Icon(Icons.ac_unit_rounded))
+  //     ])
+  //         : const CircularProgressIndicator(
+  //       color: Colors.deepPurple,
+  //     );
+  //   }
+}

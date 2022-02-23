@@ -52,16 +52,19 @@ class UploadVideoBloc extends Bloc<UploadVideoEvent, UploadVideoState> {
       Emitter<UploadVideoState> emit) async {
     _result = await FilePicker.platform.pickFiles(
       type: FileType.video,
-
     );
+
+    print('video');
   }
 
   ///image
   FutureOr<void> _ImagefilePickerButtonClicked(ImageFilePickerUploadVideoButtonClickedEvent event,
       Emitter<UploadVideoState> emit) async {
-    _imageresult = await FilePicker.platform.pickFiles(type: FileType.image, onFileLoading: image);
+    _imageresult = await FilePicker.platform.pickFiles(type: FileType.image, allowMultiple: false);
+        // onFileLoading: image,
 
-
+      print('image');
+      print(image);
   }
 
 
