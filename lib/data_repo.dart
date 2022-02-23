@@ -530,7 +530,19 @@ async{
   return true;
 }
 
+Future<List<my_datastore.File>> ListFilesByCategory(String category)
+  async{
+    List<my_datastore.File> items =[];
 
+    try {
+      items = await Amplify.DataStore.query(my_datastore.File.classType, where: my_datastore.File.CATEGORY.eq(category));
+
+    } catch (e) {
+      print("Could not query DataStore: " + e.toString());
+    }
+
+    return items;
+  }
 
 
 
