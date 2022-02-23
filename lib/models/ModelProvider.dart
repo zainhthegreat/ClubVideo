@@ -27,7 +27,7 @@ export 'FileType.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "936b7c1bc36ef08b18bc1d6ac946479a";
+  String version = "fc6f7f57e3f4f48aa11a7e96709753b0";
   @override
   List<ModelSchema> modelSchemas = [File.schema];
   static final ModelProvider _instance = ModelProvider();

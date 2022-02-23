@@ -29,13 +29,14 @@ import 'package:flutter/foundation.dart';
 class File extends Model {
   static const classType = const _FileModelType();
   final String id;
-  final String? _Name;
-  final FileType? _Type;
+  final String? _name;
+  final FileType? _type;
   final String? _category;
   final String? _description;
   final String? _ownerID;
-  final int? _Grade;
+  final int? _grade;
   final String? _s3key;
+  final String? _picsS3key;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -47,9 +48,9 @@ class File extends Model {
     return id;
   }
   
-  String get Name {
+  String get name {
     try {
-      return _Name!;
+      return _name!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -60,9 +61,9 @@ class File extends Model {
     }
   }
   
-  FileType get Type {
+  FileType get type {
     try {
-      return _Type!;
+      return _type!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -103,9 +104,9 @@ class File extends Model {
     }
   }
   
-  int get Grade {
+  int get grade {
     try {
-      return _Grade!;
+      return _grade!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -116,8 +117,21 @@ class File extends Model {
     }
   }
   
-  String? get s3key {
-    return _s3key;
+  String get s3key {
+    try {
+      return _s3key!;
+    } catch(e) {
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String? get picsS3key {
+    return _picsS3key;
   }
   
   TemporalDateTime? get createdAt {
@@ -128,18 +142,19 @@ class File extends Model {
     return _updatedAt;
   }
   
-  const File._internal({required this.id, required Name, required Type, required category, description, required ownerID, required Grade, s3key, createdAt, updatedAt}): _Name = Name, _Type = Type, _category = category, _description = description, _ownerID = ownerID, _Grade = Grade, _s3key = s3key, _createdAt = createdAt, _updatedAt = updatedAt;
+  const File._internal({required this.id, required name, required type, required category, description, required ownerID, required grade, required s3key, picsS3key, createdAt, updatedAt}): _name = name, _type = type, _category = category, _description = description, _ownerID = ownerID, _grade = grade, _s3key = s3key, _picsS3key = picsS3key, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory File({String? id, required String Name, required FileType Type, required String category, String? description, required String ownerID, required int Grade, String? s3key}) {
+  factory File({String? id, required String name, required FileType type, required String category, String? description, required String ownerID, required int grade, required String s3key, String? picsS3key}) {
     return File._internal(
       id: id == null ? UUID.getUUID() : id,
-      Name: Name,
-      Type: Type,
+      name: name,
+      type: type,
       category: category,
       description: description,
       ownerID: ownerID,
-      Grade: Grade,
-      s3key: s3key);
+      grade: grade,
+      s3key: s3key,
+      picsS3key: picsS3key);
   }
   
   bool equals(Object other) {
@@ -151,13 +166,14 @@ class File extends Model {
     if (identical(other, this)) return true;
     return other is File &&
       id == other.id &&
-      _Name == other._Name &&
-      _Type == other._Type &&
+      _name == other._name &&
+      _type == other._type &&
       _category == other._category &&
       _description == other._description &&
       _ownerID == other._ownerID &&
-      _Grade == other._Grade &&
-      _s3key == other._s3key;
+      _grade == other._grade &&
+      _s3key == other._s3key &&
+      _picsS3key == other._picsS3key;
   }
   
   @override
@@ -169,13 +185,14 @@ class File extends Model {
     
     buffer.write("File {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("Name=" + "$_Name" + ", ");
-    buffer.write("Type=" + (_Type != null ? enumToString(_Type)! : "null") + ", ");
+    buffer.write("name=" + "$_name" + ", ");
+    buffer.write("type=" + (_type != null ? enumToString(_type)! : "null") + ", ");
     buffer.write("category=" + "$_category" + ", ");
     buffer.write("description=" + "$_description" + ", ");
     buffer.write("ownerID=" + "$_ownerID" + ", ");
-    buffer.write("Grade=" + (_Grade != null ? _Grade!.toString() : "null") + ", ");
+    buffer.write("grade=" + (_grade != null ? _grade!.toString() : "null") + ", ");
     buffer.write("s3key=" + "$_s3key" + ", ");
+    buffer.write("picsS3key=" + "$_picsS3key" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -183,42 +200,45 @@ class File extends Model {
     return buffer.toString();
   }
   
-  File copyWith({String? id, String? Name, FileType? Type, String? category, String? description, String? ownerID, int? Grade, String? s3key}) {
+  File copyWith({String? id, String? name, FileType? type, String? category, String? description, String? ownerID, int? grade, String? s3key, String? picsS3key}) {
     return File._internal(
       id: id ?? this.id,
-      Name: Name ?? this.Name,
-      Type: Type ?? this.Type,
+      name: name ?? this.name,
+      type: type ?? this.type,
       category: category ?? this.category,
       description: description ?? this.description,
       ownerID: ownerID ?? this.ownerID,
-      Grade: Grade ?? this.Grade,
-      s3key: s3key ?? this.s3key);
+      grade: grade ?? this.grade,
+      s3key: s3key ?? this.s3key,
+      picsS3key: picsS3key ?? this.picsS3key);
   }
   
   File.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _Name = json['Name'],
-      _Type = enumFromString<FileType>(json['Type'], FileType.values),
+      _name = json['name'],
+      _type = enumFromString<FileType>(json['type'], FileType.values),
       _category = json['category'],
       _description = json['description'],
       _ownerID = json['ownerID'],
-      _Grade = (json['Grade'] as num?)?.toInt(),
+      _grade = (json['grade'] as num?)?.toInt(),
       _s3key = json['s3key'],
+      _picsS3key = json['picsS3key'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'Name': _Name, 'Type': enumToString(_Type), 'category': _category, 'description': _description, 'ownerID': _ownerID, 'Grade': _Grade, 's3key': _s3key, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'type': enumToString(_type), 'category': _category, 'description': _description, 'ownerID': _ownerID, 'grade': _grade, 's3key': _s3key, 'picsS3key': _picsS3key, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "file.id");
-  static final QueryField NAME = QueryField(fieldName: "Name");
-  static final QueryField TYPE = QueryField(fieldName: "Type");
+  static final QueryField NAME = QueryField(fieldName: "name");
+  static final QueryField TYPE = QueryField(fieldName: "type");
   static final QueryField CATEGORY = QueryField(fieldName: "category");
   static final QueryField DESCRIPTION = QueryField(fieldName: "description");
   static final QueryField OWNERID = QueryField(fieldName: "ownerID");
-  static final QueryField GRADE = QueryField(fieldName: "Grade");
+  static final QueryField GRADE = QueryField(fieldName: "grade");
   static final QueryField S3KEY = QueryField(fieldName: "s3key");
+  static final QueryField PICSS3KEY = QueryField(fieldName: "picsS3key");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "File";
     modelSchemaDefinition.pluralName = "Files";
@@ -285,6 +305,12 @@ class File extends Model {
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: File.S3KEY,
+      isRequired: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: File.PICSS3KEY,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
