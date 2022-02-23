@@ -1,6 +1,8 @@
 
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -648,6 +650,55 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     return str;
   }
 
+
+  Future<void> deleteFile(my_datastore.File item) async {
+
+
+    try {
+      final RemoveResult result =
+      await Amplify.Storage.remove(key: item.s3key);
+      print('Deleted file: ${result.key}');
+    } on StorageException catch (e) {
+      print('Error deleting file: $e');
+    }
+
+    if(item.picsS3key!=null)
+    {
+      try {
+        final RemoveResult result =
+        await Amplify.Storage.remove(key: item.picsS3key!);
+        print('Deleted file: ${result.key}');
+      } on StorageException catch (e) {
+        print('Error deleting file: $e');
+      }
+    }
+
+    await Amplify.DataStore.delete(item);
+
+  }
+
+  Future<void> deleteCategory(String category)
+  async {
+
+    List<my_datastore.File> items =[];
+
+    try {
+      items = await Amplify.DataStore.query(my_datastore.File.classType, where: my_datastore.File.CATEGORY.eq(category));
+
+      for(int i=0;i<items.length;i++)
+        {
+          await deleteFile(items.elementAt(i));
+          print("Deleted :"+ items.elementAt(i).toString());
+        }
+
+
+
+    } catch (e) {
+      print("Could not query DataStore: " + e.toString());
+    }
+
+
+  }
 
 
 
