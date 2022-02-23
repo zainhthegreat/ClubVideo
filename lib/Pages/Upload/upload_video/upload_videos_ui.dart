@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Media/Videos/videos_cubit.dart';
@@ -14,8 +16,9 @@ class UploadVideo extends StatefulWidget {
 
 class _UploadVideoState extends State<UploadVideo> {
   late TextEditingController _nameController;
-  late TextEditingController _gradoController;
+  // late TextEditingController _gradoController;
   String dropdownValue = '4';
+  int gradoIndex = 0;
   late TextEditingController _descController;
   bool uploadValidVideo = false;
   bool uploadValidImage = false;
@@ -26,7 +29,7 @@ class _UploadVideoState extends State<UploadVideo> {
     context.read<UploadVideoBloc>().category =
         context.read<VideosCubit>().category;
     _nameController = TextEditingController();
-    _gradoController = TextEditingController();
+    // _gradoController = TextEditingController();
 
     _descController = TextEditingController();
   }
@@ -34,7 +37,7 @@ class _UploadVideoState extends State<UploadVideo> {
   @override
   void dispose() {
     _nameController.dispose();
-    _gradoController.dispose();
+    // _gradoController.dispose();
 
     _descController.dispose();
     super.dispose();
@@ -159,6 +162,7 @@ class _UploadVideoState extends State<UploadVideo> {
                       decoration: BoxDecoration(
                           color: Colors.orange,
                           borderRadius: BorderRadius.circular(20)),
+                      child: Image.file(File(context.read<UploadVideoBloc>().state.image)),
                     ),
 
                     const SizedBox(
@@ -231,6 +235,46 @@ class _UploadVideoState extends State<UploadVideo> {
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     dropdownValue = newValue!;
+
+                                    if(newValue == '4'){
+                                      gradoIndex = 0;
+                                    }
+                                    else if(newValue == '5'){
+                                      gradoIndex = 1;
+                                    }
+                                    else if(newValue == '5+'){
+                                      gradoIndex = 2;
+                                    }
+                                    else if(newValue == '6a'){
+                                      gradoIndex = 3;
+                                    }
+                                    else if(newValue == '6a+'){
+                                      gradoIndex = 4;
+                                    }
+                                    else if(newValue == '6b'){
+                                      gradoIndex = 5;
+                                    }
+                                    else if(newValue == '6b+'){
+                                      gradoIndex = 6;
+                                    }
+                                    else if(newValue == '6c'){
+                                      gradoIndex = 7;
+                                    }
+                                    else if(newValue == '6c+'){
+                                      gradoIndex = 8;
+                                    }
+                                    else if(newValue == '7a'){
+                                      gradoIndex = 9;
+                                    }
+                                    else if(newValue == '7a+'){
+                                      gradoIndex = 10;
+                                    }
+                                    else if(newValue == '7b'){
+                                      gradoIndex = 11;
+                                    }
+                                    else if(newValue == '7b+'){
+                                      gradoIndex = 12;
+                                    }
                                   });
                                 },
                                 items: <String>[
@@ -309,7 +353,7 @@ class _UploadVideoState extends State<UploadVideo> {
                                 context.read<UploadVideoBloc>().add(
                                             UploadVideoButtonClickedEvent(
                                                 fileName: _nameController.text,
-                                                grado: _gradoController.text,
+                                                grado: gradoIndex,
                                                 desc: _descController.text,
                                                 category: ''),
                                           );

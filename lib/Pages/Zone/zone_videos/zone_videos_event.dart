@@ -2,6 +2,8 @@ import 'package:video_aws/Pages/Zone/zone_videos/zone_videos_state.dart';
 
 abstract class ZoneVideosEvent {}
 
+class GetVideoFiles extends ZoneVideosEvent{}
+
 class GetZoneVideosEvent extends ZoneVideosEvent {}
 
 class CategoryClickedZoneVideosEvent extends ZoneVideosEvent {

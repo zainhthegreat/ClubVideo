@@ -63,8 +63,9 @@ class UploadVideoBloc extends Bloc<UploadVideoEvent, UploadVideoState> {
     _imageresult = await FilePicker.platform.pickFiles(type: FileType.image, allowMultiple: false);
         // onFileLoading: image,
 
-      print('image');
-      print(image);
+     if(_result != null){
+       emit(state.copyWith(image: _result!.paths.first));
+     }
   }
 
 
@@ -91,10 +92,8 @@ class UploadVideoBloc extends Bloc<UploadVideoEvent, UploadVideoState> {
     //     print('Error uploading file: $e');
     // }
 
-    await dataRepo.datastoreUploadFile(event.fileName, category, event.desc, 1, _result, _imageresult);
+    await dataRepo.datastoreUploadFile(event.fileName, category, event.desc, event.grado, _result, _imageresult);
 
     print("YES");
-
-
   }
 }

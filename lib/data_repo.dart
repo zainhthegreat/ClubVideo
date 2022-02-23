@@ -437,7 +437,7 @@ class DataRepo {
         start++;
 
         if (start > 1) {
-          String tmp = str.split("GRADO").elementAt(1);
+          String tmp = str.split("GRADO").elementAt(0);
           res.add(tmp.split("FECHA").first);
         }
       }
@@ -586,22 +586,22 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     return items;
   }
 
-  Future<List<String>> listCategories(int name)
+  Future<List<String>> listCategories()
   async{
-    List<String> categories =[];
+    List<String> categories = [];
 
     try {
-      List<my_datastore.File> items = await Amplify.DataStore.query(my_datastore.File.classType, where: my_datastore.File.NAME.eq(name));
+      List<my_datastore.File> items = await Amplify.DataStore.query(my_datastore.File.classType);
+
 
       for(int i=0;i<items.length;i++)
         {
+          print('abc ' + items.toString()+items.elementAt(i).name);
           if(!categories.contains(items.elementAt(i).category)) {
             categories.add(items.elementAt(i).category);
           }
         }
-
-
-
+      return categories;
     } catch (e) {
       print("Could not query DataStore: " + e.toString());
     }

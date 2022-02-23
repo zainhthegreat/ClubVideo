@@ -1,76 +1,88 @@
 import 'package:video_aws/Pages/Zone/zone_videos/zone_videos_event.dart';
+import 'package:video_aws/auth/form_submission_state.dart';
+import 'package:video_aws/models/File.dart';
 
 enum SearchBy { name, grado }
 
 class ZoneVideosState {
-  int totalVideos;
-  List<String> videos;
-  int totalGrados;
-  List<String> grados;
+
+  /// New
+
+  List<File> files;
+  int totalFiles;
+  List<File> searchedVideos;
+  /// =================
+
 
   int totalCategories;
   int currentCategory;
   int totalVideosInCurrentCategory;
   List<String> categories;
-  List<String> videosNames;
 
   String searchedKeyword;
-  List<String> searchedVideos;
-  List<String> searchedVideosGrados;
 
   bool isSearching;
   SearchBy searchBy;
 
+  FormSubmissionState formSubmissionState;
+
   ZoneVideosState({
+
+    /// new
+
+    required this.files,
+    this.totalFiles = 0,
+    required this.searchedVideos,
+
+    /// ===================
+
     this.isSearching = false,
-    this.totalVideos = 0,
-    required this.videos,
-    this.totalGrados = 0,
-    required this.grados,
     this.totalCategories = 0,
     this.currentCategory = -1,
     this.totalVideosInCurrentCategory = 0,
     required this.categories,
-    required this.videosNames,
-    required this.searchedVideos,
-    required this.searchedVideosGrados,
     this.searchedKeyword = '',
     this.searchBy = SearchBy.name,
+    this.formSubmissionState = const InitialFormState(),
   });
 
   ZoneVideosState copyWith({
-    int? totalVideos,
-    List<String>? videos,
-    int? totalGrados,
-    List<String>? grados,
+
+    /// NEW
+
+    List<File>? files,
+    int? totalFiles,
+    List<File>? searchedVideos,
+
+    /// ================
+
     int? totalCategories,
     int? currentCategory,
     int? totalVideosInCurrentCategory,
     List<String>? categories,
-    List<String>? videosNames,
     String? searchedKeyword,
     bool? isSearching,
-    List<String>? searchedVideos,
-    List<String>? searchedVideosGrados,
     SearchBy? searchBy,
+    FormSubmissionState? formSubmissionState,
   }) {
     return ZoneVideosState(
-      totalVideos: totalVideos ?? this.totalVideos,
-      videos: videos ?? this.videos,
-      totalGrados: totalGrados ?? this.totalGrados,
-      grados: grados ?? this.grados,
+
+      /// NEW
+
+      files: files?? this.files,
+      totalFiles: totalFiles?? this.totalFiles,
+      searchedVideos: searchedVideos?? this.searchedVideos,
+
+      /// ==========
       totalCategories: totalCategories ?? this.totalCategories,
       currentCategory: currentCategory ?? this.currentCategory,
       totalVideosInCurrentCategory:
           totalVideosInCurrentCategory ?? this.totalVideosInCurrentCategory,
       categories: categories ?? this.categories,
-      videosNames: videosNames ?? this.videosNames,
       searchedKeyword: searchedKeyword ?? this.searchedKeyword,
       isSearching: isSearching ?? this.isSearching,
-      searchedVideos: searchedVideos ?? this.searchedVideos,
-      searchedVideosGrados: searchedVideosGrados ?? this.searchedVideosGrados,
-
-        searchBy: searchBy?? this.searchBy,
+      searchBy: searchBy ?? this.searchBy,
+      formSubmissionState: formSubmissionState ?? this.formSubmissionState,
     );
   }
 }

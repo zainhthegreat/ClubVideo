@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Pages/Zone/zone_menu/zone_menu_event.dart';
 import 'package:video_aws/Pages/Zone/zone_menu/zone_menu_state.dart';
+import 'package:video_aws/auth/form_submission_state.dart';
 
 import '../../../data_repo.dart';
 
@@ -21,8 +22,13 @@ class ZoneMenuBloc extends Bloc<ZoneMenuEvent, ZoneMenuState>{
 
   _getCategoriesZoneMenu(GetCategoriesZoneMenuEvent event, Emitter<ZoneMenuState> emit) async {
 
+    emit(state.copyWith(formSubmissionState: FormSubmitting()));
+
+
     List<String> categories = await dataRepo.getCategoriesSectoresMenu();
     emit(state.copyWith(totalCategories: categories.length, categories: categories));
+
+    emit(state.copyWith(formSubmissionState: FormSubmissionSuccessful()));
   }
 
   FutureOr<void> _getVideosInACategoryZoneMenu(CategoryClickedZoneMenuEvent event, Emitter<ZoneMenuState> emit) {

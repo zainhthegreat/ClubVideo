@@ -72,6 +72,7 @@ class _RunPlayerState extends State<RunPlayer> {
       videoPlayerController: videoPlayerController,
       autoPlay: true,
       looping: true,
+      autoInitialize: true
     );
   }
 

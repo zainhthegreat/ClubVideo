@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Media/Videos/videos_cubit.dart';
+import 'package:video_aws/auth/form_submission_state.dart';
 
 import 'zone_videos_bloc.dart';
 import 'zone_videos_event.dart';
@@ -22,8 +23,7 @@ class _ZoneVideoState extends State<ZoneVideo> {
   @override
   void initState() {
     super.initState();
-    context.read<ZoneVideosBloc>().add(GetZoneVideosEventGRADO());
-    context.read<ZoneVideosBloc>().add(GetZoneVideosEvent());
+    context.read<ZoneVideosBloc>().add(GetVideoFiles());
   }
 
   @override
@@ -197,106 +197,194 @@ class _ZoneVideoState extends State<ZoneVideo> {
         ),
         body: BlocBuilder<ZoneVideosBloc, ZoneVideosState>(
           builder: (BuildContext context, state) {
-            return ListView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(top: 20),
-              itemCount: !context.watch<ZoneVideosBloc>().state.isSearching
-                  ? state.totalVideos
-                  : state.searchedVideos
-                      .length, // TODO -- total categories in state
-              itemBuilder: (context, index) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          splashColor: Colors.orange,
-                          onTap: () {
-                            context.read<VideosCubit>().watchVideo(category: "category", name: "",
-                                UIName: "UIName");
-                          },
-                          child: Card(
-                            elevation: 10,
-                            color: Colors.orange.shade50,
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(20), // if you need this
-                              side: const BorderSide(
-                                color: Colors.orange,
-                                width: 2,
+            return context.watch<ZoneVideosBloc>().state.formSubmissionState
+                    is FormSubmitting
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.teal,
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 20),
+                    itemCount:
+                        !context.watch<ZoneVideosBloc>().state.isSearching
+                            ? state.totalFiles
+                            : state.searchedVideos
+                                .length, // TODO -- total categories in state
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: Column(
+                            children: [
+                              InkWell(
+                                splashColor: Colors.orange,
+                                onTap: () {
+                                  context.read<VideosCubit>().watchVideo(
+                                      category: "category",
+                                      name: "",
+                                      UIName: "UIName");
+                                },
+                                child: Card(
+                                  elevation: 10,
+                                  color: Colors.orange.shade50,
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 20),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        20), // if you need this
+                                    side: const BorderSide(
+                                      color: Colors.orange,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 75,
+                                        width: 75,
+                                        margin: const EdgeInsets.only(
+                                            right: 10,
+                                            left: 5,
+                                            bottom: 10,
+                                            top: 10),
+                                        color: Colors.orangeAccent,
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            !context
+                                                    .watch<ZoneVideosBloc>()
+                                                    .state
+                                                    .isSearching
+                                                ? context
+                                                    .read<ZoneVideosBloc>()
+                                                    .state
+                                                    .files[index]
+                                                    .name
+                                                : context
+                                                    .read<ZoneVideosBloc>()
+                                                    .state
+                                                    .searchedVideos[index]
+                                                    .name,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            !context
+                                                    .watch<ZoneVideosBloc>()
+                                                    .state
+                                                    .isSearching
+                                                ? getTextFromGrade(context
+                                                    .read<ZoneVideosBloc>()
+                                                    .state
+                                                    .files[index]
+                                                    .grade)
+                                                : getTextFromGrade(context
+                                                    .read<ZoneVideosBloc>()
+                                                    .state
+                                                    .searchedVideos[index]
+                                                    .grade),
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Container(
+                                            color: getColorFromGrade(context
+                                                .read<ZoneVideosBloc>()
+                                                .state
+                                                .files[index]
+                                                .grade),
+                                            height: 15,
+                                            width: 15,
+                                          ),
+                                        ],
+                                      ),
+                                      const Expanded(child: SizedBox()),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 75,
-                                  width: 75,
-                                  margin: const EdgeInsets.only(
-                                      right: 10, left: 5, bottom: 10, top: 10),
-                                  color: Colors.orangeAccent,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      !context
-                                              .watch<ZoneVideosBloc>()
-                                              .state
-                                              .isSearching
-                                          ? context
-                                              .read<ZoneVideosBloc>()
-                                              .state
-                                              .videos[index]
-                                          : context
-                                              .read<ZoneVideosBloc>()
-                                              .state
-                                              .searchedVideos[index],
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      !context
-                                              .watch<ZoneVideosBloc>()
-                                              .state
-                                              .isSearching
-                                          ? context
-                                              .read<ZoneVideosBloc>()
-                                              .state
-                                              .grados[index]
-                                          : context
-                                              .read<ZoneVideosBloc>()
-                                              .state
-                                              .searchedVideosGrados[index],
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                      ),
-                                    ),
-//  TODO -- change this color according to grade (grade color mapping?)
-                                    Container(
-                                      color: Colors.blue,
-                                      height: 15,
-                                      width: 15,
-                                    ),
-                                  ],
-                                ),
-                                const Expanded(child: SizedBox()),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
+                      );
+                    },
+                  );
           },
         ),
       ),
     );
   }
+}
+
+Color getColorFromGrade(int grade) {
+  Color col = Colors.white;
+
+  grade == 0
+      ? col = Colors.white
+      : grade == 1
+          ? col = Colors.red
+          : grade == 2
+              ? col = Colors.redAccent
+              : grade == 3
+                  ? col = Colors.blue
+                  : grade == 4
+                      ? col = Colors.blueAccent
+                      : grade == 5
+                          ? col = Colors.green
+                          : grade == 6
+                              ? col = Colors.greenAccent
+                              : grade == 7
+                                  ? col = Colors.orange
+                                  : grade == 8
+                                      ? col = Colors.orangeAccent
+                                      : grade == 9
+                                          ? col = Colors.purple
+                                          : grade == 10
+                                              ? col = Colors.purpleAccent
+                                              : grade == 11
+                                                  ? col = Colors.yellow
+                                                  : grade == 12
+                                                      ? col =
+                                                          Colors.yellowAccent
+                                                      : col = Colors.black;
+
+  return col;
+}
+
+String getTextFromGrade(int grade) {
+  String grado = '4';
+
+  grade == 0
+      ? grado = '4'
+      : grade == 1
+          ? grado = '5'
+          : grade == 2
+              ? grado = '5+'
+              : grade == 3
+                  ? grado = '6a'
+                  : grade == 4
+                      ? grado = '6a+'
+                      : grade == 5
+                          ? grado = '6b'
+                          : grade == 6
+                              ? grado = '6b+'
+                              : grade == 7
+                                  ? grado = '6c'
+                                  : grade == 8
+                                      ? grado = '6c+'
+                                      : grade == 9
+                                          ? grado = '7a'
+                                          : grade == 10
+                                              ? grado = '7a+'
+                                              : grade == 11
+                                                  ? grado = '7b'
+                                                  : grade == 12
+                                                      ? grado = '7b+'
+                                                      : grado = '';
+
+  return grado;
 }

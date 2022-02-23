@@ -32,7 +32,7 @@ class _UploadVideoMenuState extends State<UploadVideoMenu> {
   Widget build(BuildContext context) {
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/bgdibujos.jpg'),
 
@@ -48,10 +48,10 @@ class _UploadVideoMenuState extends State<UploadVideoMenu> {
         appBar: AppBar(
 
           backgroundColor: Colors.orangeAccent,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
 
           leading: IconButton(
-            icon: Icon (Icons.arrow_back_ios_rounded,
+            icon: const Icon (Icons.arrow_back_ios_rounded,
               size: 31,),
             onPressed: () {
               context.read<VideosCubit>().showInicio();
@@ -123,10 +123,10 @@ class _UploadVideoMenuState extends State<UploadVideoMenu> {
                         child: Card(
                           elevation: 10,
                           color: Colors.orange.shade50,
-                          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+                          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20), // if you need this
-                            side: BorderSide(
+                            side: const BorderSide(
                               color: Colors.orange,
                               width: 2,
                             ),
@@ -136,8 +136,8 @@ class _UploadVideoMenuState extends State<UploadVideoMenu> {
                           child: Row(
                             children: [
                               Container( height: 50,
-                                margin: EdgeInsets.only(right: 20, left: 10, bottom: 10, top: 10),
-                                child: Image(
+                                margin: const EdgeInsets.only(right: 20, left: 10, bottom: 10, top: 10),
+                                child: const Image(
                                   image: AssetImage('assets/glogo.png'),
                                 ),
                               ),
@@ -147,14 +147,14 @@ class _UploadVideoMenuState extends State<UploadVideoMenu> {
                                 style: const TextStyle(fontSize: 24),
                               ),
 
-                              Expanded(child: SizedBox()),
+                              const Expanded(child: SizedBox()),
 
-                              Icon (Icons.play_arrow_outlined,
+                              const Icon (Icons.play_arrow_outlined,
 
                                 size: 40,
                                 color: Colors.orange,),
 
-                              SizedBox(width: 10,)
+                              const SizedBox(width: 10,)
 
                             ],
                           ),

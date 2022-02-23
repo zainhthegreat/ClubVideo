@@ -31,7 +31,7 @@ class ImageSelectedUploadEvent extends UploadVideoEvent{
       ///upload image  video grado and name
 class UploadVideoButtonClickedEvent extends UploadVideoEvent {
   String fileName;
-  String grado;
+  int grado;
   String category;
 
   String desc;///BORRAR
