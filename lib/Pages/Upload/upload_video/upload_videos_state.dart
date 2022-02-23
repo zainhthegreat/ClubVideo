@@ -1,25 +1,23 @@
-
 import 'package:video_aws/Pages/Upload/uploading_state.dart';
 
-
-class UploadVideoState
-{
+class UploadVideoState {
   String video;
   String fileName;
   String description;
-  bool uploaded;    /// will tell if the file is "uploaded" or "In progress/ Not uploaded"
-  int progress;    /// will only be relevant if the file is being uploaded
+  bool uploaded;
+
+  /// will tell if the file is "uploaded" or "In progress/ Not uploaded"
+  int progress;
+
+  /// will only be relevant if the file is being uploaded
   UploadingState uploadingState;
   String category;
 
   String image;
 
-
   String grado;
 
   bool get isValidEmail => grado.contains('@') ? true : false;
-
-
 
   UploadVideoState({
     this.video = '',
@@ -29,13 +27,9 @@ class UploadVideoState
     this.progress = 0,
     this.uploadingState = const InitialUploadState(),
     this.category = '',
-
-    this.image='',
-
-    this.grado='',
-
-    });
-
+    this.image = '',
+    this.grado = '',
+  });
 
   UploadVideoState copyWith({
     String? video,
@@ -45,26 +39,19 @@ class UploadVideoState
     int? progress,
     UploadingState? uploadingState,
     String? category,
-
     String? image,
-
     String? grado,
-
-
-  }){
+  }) {
     return UploadVideoState(
-      video: video?? this.video,
+      video: video ?? this.video,
       fileName: fileName ?? this.fileName,
       description: description ?? this.description,
-      uploaded: uploaded?? this.uploaded,
-      progress: progress?? this.progress,
-      uploadingState: uploadingState?? this.uploadingState,
-      category: category?? this.category,
-
-      image: image?? this.image,
-
-      grado: grado?? this.grado,
-
+      uploaded: uploaded ?? this.uploaded,
+      progress: progress ?? this.progress,
+      uploadingState: uploadingState ?? this.uploadingState,
+      category: category ?? this.category,
+      image: image ?? this.image,
+      grado: grado ?? this.grado,
     );
   }
 }

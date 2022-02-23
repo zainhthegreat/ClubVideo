@@ -155,15 +155,20 @@ class _UploadVideoState extends State<UploadVideo> {
                     ),
 
                     ///FotoView
-                    Container(
-                      margin: const EdgeInsets.only(top: 30),
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Image.file(File(context.read<UploadVideoBloc>().state.image)),
-                    ),
+                    context.watch<UploadVideoBloc>().state.image == ''
+                        ? Container(
+                            margin: const EdgeInsets.only(top: 30),
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.circular(20)),
+                          )
+                        : Image.file(
+                            File(context.watch<UploadVideoBloc>().state.image),
+                            width: 100,
+                            height: 100,
+                          ),
 
                     const SizedBox(
                       height: 30,
@@ -236,43 +241,31 @@ class _UploadVideoState extends State<UploadVideo> {
                                   setState(() {
                                     dropdownValue = newValue!;
 
-                                    if(newValue == '4'){
+                                    if (newValue == '4') {
                                       gradoIndex = 0;
-                                    }
-                                    else if(newValue == '5'){
+                                    } else if (newValue == '5') {
                                       gradoIndex = 1;
-                                    }
-                                    else if(newValue == '5+'){
+                                    } else if (newValue == '5+') {
                                       gradoIndex = 2;
-                                    }
-                                    else if(newValue == '6a'){
+                                    } else if (newValue == '6a') {
                                       gradoIndex = 3;
-                                    }
-                                    else if(newValue == '6a+'){
+                                    } else if (newValue == '6a+') {
                                       gradoIndex = 4;
-                                    }
-                                    else if(newValue == '6b'){
+                                    } else if (newValue == '6b') {
                                       gradoIndex = 5;
-                                    }
-                                    else if(newValue == '6b+'){
+                                    } else if (newValue == '6b+') {
                                       gradoIndex = 6;
-                                    }
-                                    else if(newValue == '6c'){
+                                    } else if (newValue == '6c') {
                                       gradoIndex = 7;
-                                    }
-                                    else if(newValue == '6c+'){
+                                    } else if (newValue == '6c+') {
                                       gradoIndex = 8;
-                                    }
-                                    else if(newValue == '7a'){
+                                    } else if (newValue == '7a') {
                                       gradoIndex = 9;
-                                    }
-                                    else if(newValue == '7a+'){
+                                    } else if (newValue == '7a+') {
                                       gradoIndex = 10;
-                                    }
-                                    else if(newValue == '7b'){
+                                    } else if (newValue == '7b') {
                                       gradoIndex = 11;
-                                    }
-                                    else if(newValue == '7b+'){
+                                    } else if (newValue == '7b+') {
                                       gradoIndex = 12;
                                     }
                                   });
@@ -348,15 +341,13 @@ class _UploadVideoState extends State<UploadVideo> {
                                 //   });
                                 // }
 
-
-
                                 context.read<UploadVideoBloc>().add(
-                                            UploadVideoButtonClickedEvent(
-                                                fileName: _nameController.text,
-                                                grado: gradoIndex,
-                                                desc: _descController.text,
-                                                category: ''),
-                                          );
+                                      UploadVideoButtonClickedEvent(
+                                          fileName: _nameController.text,
+                                          grado: gradoIndex,
+                                          desc: _descController.text,
+                                          category: ''),
+                                    );
                               },
                               child: const Text('Upload Video'),
                               style: ButtonStyle(

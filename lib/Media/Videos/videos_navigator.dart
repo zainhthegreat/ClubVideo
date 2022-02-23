@@ -22,7 +22,6 @@ import 'package:video_aws/Pages/watch_video/watch_video_ui.dart';
 
 import '../../data_repo.dart';
 
-
 class VideosNavigator extends StatelessWidget {
   const VideosNavigator({Key? key}) : super(key: key);
 
@@ -32,7 +31,6 @@ class VideosNavigator extends StatelessWidget {
       builder: (context, state) {
         return Navigator(
           pages: [
-
             ///*********************** HomePage ***************///
             if (state is InitialStateOfVideos)
               MaterialPage(
@@ -45,22 +43,34 @@ class VideosNavigator extends StatelessWidget {
             if (state is ViewInicio)
               MaterialPage(
                   child: BlocProvider(
-                    create: (BuildContext context) =>
-                        HomepageBloc(dataRepo: context.read<DataRepo>(),
-                        ),
-                    child: const HomePage(),
-                  )
-              ),
-
+                create: (BuildContext context) => HomepageBloc(
+                  dataRepo: context.read<DataRepo>(),
+                ),
+                child: const HomePage(),
+              )),
 
             ///*********************** ZONE Menu/Videos ***************///
-            if (state is ViewingZoneMenu) ...[
+            if (state is ViewingZoneMenu || state is WatchingVideo) ...[
               MaterialPage(
                 child: BlocProvider(
                     create: (BuildContext context) =>
                         ZoneMenuBloc(dataRepo: context.read<DataRepo>()),
                     child: const ZoneMenu()),
               ),
+
+              ///************************ WatchingVideo *********************///
+              if (state is WatchingVideo)
+                MaterialPage(
+                  child: BlocProvider(
+                    create: (BuildContext context) => WatchVideosBloc(
+                      dataRepo: context.read<DataRepo>(),
+                      category: state.category,
+                      name: state.name,
+                      UIName: state.UIName,
+                    ),
+                    child: const WatchVideo(),
+                  ),
+                ),
             ],
 
             if (state is ViewingZoneVideos)
@@ -95,7 +105,6 @@ class VideosNavigator extends StatelessWidget {
                 ),
               ),
 
-
             ///************************UPLOAD Zone/Video *********************///
             if (state is ViewingMenuUploadVideos)
               MaterialPage(
@@ -116,51 +125,25 @@ class VideosNavigator extends StatelessWidget {
                   child: const UploadVideo(),
                 ),
               ),
-
-
-            ///************************ WatchingVideo *********************///
-              if (state is WatchingVideo)
-                MaterialPage(
-                  child: BlocProvider(
-                    create: (BuildContext context) => WatchVideosBloc(
-                      dataRepo: context.read<DataRepo>(),
-                      category: state.category,
-                      name: state.name,
-                      UIName: state.UIName,
-                    ),
-                    child: const WatchVideo(),
-                  ),
-                ),
-            ],
-
-
-
+          ],
           onPopPage: (route, result) {
             final page = route.settings as MaterialPage;
 
-            if (page.child is HomePage) {
-            }
+            if (page.child is HomePage) {}
 
-            if (page.child is ZoneMenu) {
-            }
+            if (page.child is ZoneMenu) {}
 
-            if (page.child is ZoneVideo){
-            }
+            if (page.child is ZoneVideo) {}
 
-            if(page.child is MyVideosMenu){
-            }
+            if (page.child is MyVideosMenu) {}
 
-            if(page.child is MyVideosUI){
-            }
+            if (page.child is MyVideosUI) {}
 
-            if(page.child is UploadVideoMenu){
-            }
+            if (page.child is UploadVideoMenu) {}
 
-            if (page.child is UploadVideo) {
-            }
+            if (page.child is UploadVideo) {}
 
-            if (page.child is WatchingVideo) {
-            }
+            if (page.child is WatchingVideo) {}
 
             return route.didPop(result);
           },

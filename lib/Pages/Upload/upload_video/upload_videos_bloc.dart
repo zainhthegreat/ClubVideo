@@ -13,42 +13,37 @@ import 'package:video_aws/Pages/Upload/upload_video/upload_videos_state.dart';
 import '../../../amplifyconfiguration.dart';
 import '../../../data_repo.dart';
 
-
-
-
 class UploadVideoBloc extends Bloc<UploadVideoEvent, UploadVideoState> {
-  late FilePickerResult? _result;
+  FilePickerResult? _result;
   DataRepo dataRepo;
   String category = "";
 
   late FilePickerResult? _imageresult;
 
-
-
   UploadVideoBloc({required this.dataRepo}) : super(UploadVideoState()) {
-    on<FilePickerUploadVideoButtonClickedEvent>(_filePickerButtonClicked);  ///video
+    on<FilePickerUploadVideoButtonClickedEvent>(_filePickerButtonClicked);
 
-    on<VideoSelectedUploadEvent>(
-        (event, emit) => emit(state.copyWith(video: event.video, image: event.image)));
+    ///video
 
+    on<VideoSelectedUploadEvent>((event, emit) =>
+        emit(state.copyWith(video: event.video, image: event.image)));
 
-    on<ImageFilePickerUploadVideoButtonClickedEvent>(_ImagefilePickerButtonClicked);   ///Image
+    on<ImageFilePickerUploadVideoButtonClickedEvent>(
+        _ImagefilePickerButtonClicked);
+
+    ///Image
 
     on<ImageSelectedUploadEvent>(
-            (event, emit) => emit(state.copyWith(image: event.image)));
-
-
+        (event, emit) => emit(state.copyWith(image: event.image)));
 
     on<UploadVideoButtonClickedEvent>(_uploadFile);
-
-
   }
 
   get image => null;
 
-
   ///video
-  FutureOr<void> _filePickerButtonClicked(FilePickerUploadVideoButtonClickedEvent event,
+  FutureOr<void> _filePickerButtonClicked(
+      FilePickerUploadVideoButtonClickedEvent event,
       Emitter<UploadVideoState> emit) async {
     _result = await FilePicker.platform.pickFiles(
       type: FileType.video,
@@ -58,24 +53,23 @@ class UploadVideoBloc extends Bloc<UploadVideoEvent, UploadVideoState> {
   }
 
   ///image
-  FutureOr<void> _ImagefilePickerButtonClicked(ImageFilePickerUploadVideoButtonClickedEvent event,
+  FutureOr<void> _ImagefilePickerButtonClicked(
+      ImageFilePickerUploadVideoButtonClickedEvent event,
       Emitter<UploadVideoState> emit) async {
-    _imageresult = await FilePicker.platform.pickFiles(type: FileType.image, allowMultiple: false);
-        // onFileLoading: image,
+    _imageresult = await FilePicker.platform
+        .pickFiles(type: FileType.image, allowMultiple: false);
+    // onFileLoading: image,
 
-     if(_result != null){
-       emit(state.copyWith(image: _result!.paths.first));
-     }
+    if (_imageresult != null) {
+      emit(state.copyWith(image: _imageresult!.paths.first));
+    }
   }
-
 
   FutureOr<void> _uploadFile(UploadVideoButtonClickedEvent event,
       Emitter<UploadVideoState> emit) async {
     //TODO add category to the UI through navigation and access using event
     //  String ret = await dataRepo.uploadVideo(_result, category, event.fileName,event.desc, event.grado);
     //  await dataRepo.uploadImage(_imageresult, category, event.fileName,event.desc, event.grado);
-
-
 
     //    await dataRepo.datastoreUploadFile(event.fileName, category, event.desc, "TEST", 1, "TEST", "TEST");
     // final file = File(_result!.files.first.path!);
@@ -92,7 +86,8 @@ class UploadVideoBloc extends Bloc<UploadVideoEvent, UploadVideoState> {
     //     print('Error uploading file: $e');
     // }
 
-    await dataRepo.datastoreUploadFile(event.fileName, category, event.desc, event.grado, _result, _imageresult);
+    await dataRepo.datastoreUploadFile(event.fileName, category, event.desc,
+        event.grado, _result, _imageresult);
 
     print("YES");
   }
