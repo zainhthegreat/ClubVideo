@@ -544,6 +544,43 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     return items;
   }
 
+  Future<String> getVideoLink(my_datastore.File item)
+  async{
+    String str="";
+    try {
+      final GetUrlResult result =
+      await Amplify.Storage.getUrl(key: item.s3key);
+      // NOTE: This code is only for demonstration
+      // Your debug console may truncate the printed url string
+      print('Got URL: ${result.url}');
+
+      return result.url;
+    } on StorageException catch (e) {
+      print('Error getting download URL: $e');
+    }
+
+    return str;
+  }
+
+  Future<String> getPhotoLink(my_datastore.File item)
+  async{
+    String str="";
+    if(item.picsS3key!=null) {
+      try {
+        final GetUrlResult result =
+        await Amplify.Storage.getUrl(key: item.picsS3key!);
+        // NOTE: This code is only for demonstration
+        // Your debug console may truncate the printed url string
+        print('Got URL: ${result.url}');
+
+        return result.url;
+      } on StorageException catch (e) {
+        print('Error getting download URL: $e');
+      }
+    }
+    return str;
+  }
+
 
 
 }
