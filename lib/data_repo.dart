@@ -527,7 +527,7 @@ async{
 
 
   print("UPLOADED");
-  return false;
+  return true;
 }
 
 
