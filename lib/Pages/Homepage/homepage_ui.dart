@@ -89,20 +89,20 @@ class _HomePageState extends State<HomePage> {
                         child: GestureDetector(
                           onTap: () async {
 
-                            final updatedItem = File(
-                                Name: "Lorem ipsum dolor sit amet",
-                                Type: FileType.VIDEO,
-                                category: "Lorem ipsum dolor sit amet",
-                                description: "Lorem ipsum dolor sit amet",
-                                ownerID: "Lorem ipsum dolor sit amet",
-                                Grade: 1020);
-                            await Amplify.DataStore.save(updatedItem);
+                            // final updatedItem = File(
+                            //     Name: "Lorem ipsum dolor sit amet",
+                            //     Type: FileType.VIDEO,
+                            //     category: "Lorem ipsum dolor sit amet",
+                            //     description: "Lorem ipsum dolor sit amet",
+                            //     ownerID: "Lorem ipsum dolor sit amet",
+                            //     Grade: 1020);
+                            // await Amplify.DataStore.save(updatedItem);
 
                             context.read<VideosCubit>().showZoneMenu();
                           },
 
                           child: Container(
-                              padding: EdgeInsets.all(10,),
+                              padding: const EdgeInsets.all(10,),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 gradient: LinearGradient(

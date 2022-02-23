@@ -273,38 +273,48 @@ class _UploadVideoState extends State<UploadVideo> {
 
                             ElevatedButton(
                               onPressed: () {
-                                if (_nameController.text.isNotEmpty &&
-                                    uploadValidVideo == true &&
-                                    _gradoController.text.isNotEmpty &&
-                                    uploadValidImage == true) {
-                                  context.read<UploadVideoBloc>().add(
-                                        UploadVideoButtonClickedEvent(
-                                            fileName: _nameController.text,
-                                            grado: _gradoController.text,
-                                            desc: _descController.text,
-                                            category: ''),
-                                      );
+                                // if (_nameController.text.isNotEmpty &&
+                                //     uploadValidVideo == true &&
+                                //     _gradoController.text.isNotEmpty &&
+                                //     uploadValidImage == true) {
+                                //   context.read<UploadVideoBloc>().add(
+                                //         UploadVideoButtonClickedEvent(
+                                //             fileName: _nameController.text,
+                                //             grado: _gradoController.text,
+                                //             desc: _descController.text,
+                                //             category: ''),
+                                //       );
+                                //
+                                //   const snackBar = SnackBar(
+                                //     content:
+                                //         Text('Uploading video, please wait...'),
+                                //     backgroundColor: Colors.orange,
+                                //   );
+                                //   ScaffoldMessenger.of(context)
+                                //       .showSnackBar(snackBar);
+                                //
+                                //   setState(() {
+                                //     uploadValidVideo = false;
+                                //     uploadValidImage = false;
+                                //
+                                //     _nameController.clear();
+                                //     _gradoController.clear();
+                                //
+                                //     _descController.clear();
+                                //
+                                //     ///BO
+                                //   });
+                                // }
 
-                                  const snackBar = SnackBar(
-                                    content:
-                                        Text('Uploading video, please wait...'),
-                                    backgroundColor: Colors.orange,
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
 
-                                  setState(() {
-                                    uploadValidVideo = false;
-                                    uploadValidImage = false;
 
-                                    _nameController.clear();
-                                    _gradoController.clear();
-
-                                    _descController.clear();
-
-                                    ///BO
-                                  });
-                                }
+                                context.read<UploadVideoBloc>().add(
+                                            UploadVideoButtonClickedEvent(
+                                                fileName: _nameController.text,
+                                                grado: _gradoController.text,
+                                                desc: _descController.text,
+                                                category: ''),
+                                          );
                               },
                               child: const Text('Upload Video'),
                               style: ButtonStyle(

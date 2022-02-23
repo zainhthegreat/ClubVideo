@@ -7,6 +7,9 @@ import 'package:path_provider/path_provider.dart';
 import 'Dart:io';
 import 'auth/auth_repo.dart';
 
+import 'models/File.dart' as my_datastore;
+import 'models/FileType.dart' as my_datastore_type;
+
 class DataRepo {
   late List<String> Folders;
   late List<String> Files;
@@ -462,4 +465,80 @@ class DataRepo {
     //
     // return res;
   }
+
+
+
+  //NEW STARTED
+
+
+Future<bool> datastoreUploadFile(String name, String category, String description, int grade, FilePickerResult? video, FilePickerResult? photo)
+async{
+
+  AuthRepo authRepo = AuthRepo();
+  String userID= await authRepo.getUserIDFromAttributes();
+  final item = my_datastore.File(
+      name:name,
+      type: my_datastore_type.FileType.VIDEO,
+      category: category,
+      description: description,
+      ownerID: userID,
+      grade: grade,
+      s3key: "Videos/$category/" + name +"@" + userID,
+      picsS3key: "Fotos/$category/" + name +"@" + userID,
+  );
+  await Amplify.DataStore.save(item);
+
+
+
+
+
+  //Uploading video
+  try {
+    final file = File(video!.files.first.path!);
+    final UploadFileResult result = await Amplify.Storage.uploadFile(
+      local: file,
+      key: item.s3key + "@" + item.createdAt.toString(),
+      options: S3UploadFileOptions(
+        accessLevel: StorageAccessLevel.guest,
+      ),
+    );
+    print('Successfully uploaded Video: ${result.key}');
+  } on StorageException catch (e) {
+    print('Error uploading file: $e');
+  }
+
+
+  if(photo!=null) {
+    //Upploading Photo
+    try {
+      final file = File(photo.files.first.path!);
+      final UploadFileResult result = await Amplify.Storage.uploadFile(
+        local: file,
+        key: item.picsS3key! + "@" + item.createdAt.toString(),
+        options: S3UploadFileOptions(
+          accessLevel: StorageAccessLevel.guest,
+        ),
+      );
+      print('Successfully uploaded Video: ${result.key}');
+    } on StorageException catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+
+  print("UPLOADED");
+  return false;
 }
+
+
+
+
+
+}
+
+
+
+
+
+
+
