@@ -43,8 +43,8 @@ class VideosCubit extends Cubit<VideoState> {
 
 
   ///************************  WatchVideo *********************///
-  watchVideo({required String category, required String name, required String UIName}) =>
-      emit(WatchingVideo(category: category, name: name, UIName: UIName));
+  watchVideo({required String category, required String name, required String UIName,required String url}) =>
+      emit(WatchingVideo(category: category, name: name, UIName: UIName, url: url));
 }
 
 

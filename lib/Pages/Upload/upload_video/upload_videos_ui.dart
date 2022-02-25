@@ -6,6 +6,7 @@ import 'package:video_aws/Media/Videos/videos_cubit.dart';
 import 'package:video_aws/Pages/Upload/upload_video/upload_videos_bloc.dart';
 import 'package:video_aws/Pages/Upload/upload_video/upload_videos_event.dart';
 import 'package:video_aws/Pages/Upload/upload_video/upload_videos_state.dart';
+import 'package:video_aws/auth/form_submission_state.dart';
 
 class UploadVideo extends StatefulWidget {
   const UploadVideo({Key? key}) : super(key: key);
@@ -46,6 +47,7 @@ class _UploadVideoState extends State<UploadVideo> {
   @override
   Widget build(BuildContext context) {
     ScrollController _controller = ScrollController();
+    bool indicator=true;
 
     return BlocListener<UploadVideoBloc, UploadVideoState>(
       listener: (BuildContext context, state) {
@@ -187,183 +189,204 @@ class _UploadVideoState extends State<UploadVideo> {
                       height: 20,
                     ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                context.read<UploadVideoBloc>().add(
-                                      FilePickerUploadVideoButtonClickedEvent(),
-                                    );
-                                setState(() {
-                                  uploadValidVideo = true;
-                                });
-                              },
-                              child: const Text('Select Video'),
+                    context.watch<UploadVideoBloc>().state.formSubmissionState
+                            is FormSubmitting
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.teal,
                             ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.read<UploadVideoBloc>().add(
+                                            FilePickerUploadVideoButtonClickedEvent(),
+                                          );
+                                      setState(() {
+                                        uploadValidVideo = true;
+                                      });
+                                    },
+                                    child: const Text('Select Video'),
+                                  ),
 
-                            ///select video
+                                  ///select video
 
-                            const SizedBox(
-                              width: 10,
-                            ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
 
-                            ElevatedButton(
-                              onPressed: () {
-                                context.read<UploadVideoBloc>().add(
-                                      ImageFilePickerUploadVideoButtonClickedEvent(),
-                                    );
-                                setState(() {
-                                  uploadValidImage = true;
-                                });
-                              },
-                              child: const Text('Select Image'),
-                            ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.read<UploadVideoBloc>().add(
+                                            ImageFilePickerUploadVideoButtonClickedEvent(),
+                                          );
+                                      setState(() {
+                                        uploadValidImage = true;
+                                      });
+                                    },
+                                    child: const Text('Select Image'),
+                                  ),
 
-                            ///Select Image
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              width: 60,
-                              height: 38,
-                              child: DropdownButton<String>(
-                                elevation: 16,
-                                value: dropdownValue,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    dropdownValue = newValue!;
-
-                                    if (newValue == '4') {
-                                      gradoIndex = 0;
-                                    } else if (newValue == '5') {
-                                      gradoIndex = 1;
-                                    } else if (newValue == '5+') {
-                                      gradoIndex = 2;
-                                    } else if (newValue == '6a') {
-                                      gradoIndex = 3;
-                                    } else if (newValue == '6a+') {
-                                      gradoIndex = 4;
-                                    } else if (newValue == '6b') {
-                                      gradoIndex = 5;
-                                    } else if (newValue == '6b+') {
-                                      gradoIndex = 6;
-                                    } else if (newValue == '6c') {
-                                      gradoIndex = 7;
-                                    } else if (newValue == '6c+') {
-                                      gradoIndex = 8;
-                                    } else if (newValue == '7a') {
-                                      gradoIndex = 9;
-                                    } else if (newValue == '7a+') {
-                                      gradoIndex = 10;
-                                    } else if (newValue == '7b') {
-                                      gradoIndex = 11;
-                                    } else if (newValue == '7b+') {
-                                      gradoIndex = 12;
-                                    }
-                                  });
-                                },
-                                items: <String>[
-                                  '4',
-                                  '5',
-                                  '5+',
-                                  '6a',
-                                  '6a+',
-                                  '6b',
-                                  '6b+',
-                                  '6c',
-                                  '6c+',
-                                  '7a',
-                                  '7a+',
-                                  '7b',
-                                  '7b+'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
+                                  ///Select Image
+                                ],
                               ),
-                              // child: TextField(
-                              //
-                              //   controller: _gradoController,
-                              //   decoration: const InputDecoration(
-                              //     border: OutlineInputBorder(),
-                              //     labelText: 'Grado',
-                              //     floatingLabelBehavior: FloatingLabelBehavior.always
-                              //   ),
-                              // ),
-                            ),
-
-                            const SizedBox(
-                              height: 10,
-                            ),
-
-                            ElevatedButton(
-                              onPressed: () {
-                                // if (_nameController.text.isNotEmpty &&
-                                //     uploadValidVideo == true &&
-                                //     _gradoController.text.isNotEmpty &&
-                                //     uploadValidImage == true) {
-                                //   context.read<UploadVideoBloc>().add(
-                                //         UploadVideoButtonClickedEvent(
-                                //             fileName: _nameController.text,
-                                //             grado: _gradoController.text,
-                                //             desc: _descController.text,
-                                //             category: ''),
-                                //       );
-                                //
-                                //   const snackBar = SnackBar(
-                                //     content:
-                                //         Text('Uploading video, please wait...'),
-                                //     backgroundColor: Colors.orange,
-                                //   );
-                                //   ScaffoldMessenger.of(context)
-                                //       .showSnackBar(snackBar);
-                                //
-                                //   setState(() {
-                                //     uploadValidVideo = false;
-                                //     uploadValidImage = false;
-                                //
-                                //     _nameController.clear();
-                                //     _gradoController.clear();
-                                //
-                                //     _descController.clear();
-                                //
-                                //     ///BO
-                                //   });
-                                // }
-
-                                context.read<UploadVideoBloc>().add(
-                                      UploadVideoButtonClickedEvent(
-                                          fileName: _nameController.text,
-                                          grado: gradoIndex,
-                                          desc: _descController.text,
-                                          category: ''),
-                                    );
-                              },
-                              child: const Text('Upload Video'),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    uploadValidVideo == true &&
-                                            uploadValidImage == true
-                                        ? Colors.orange
-                                        : Colors.grey),
+                              const SizedBox(
+                                width: 20,
                               ),
-                            ),
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    width: 60,
+                                    height: 38,
+                                    child: DropdownButton<String>(
+                                      elevation: 16,
+                                      value: dropdownValue,
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownValue = newValue!;
 
-                            ///Upload video
-                          ],
-                        ),
-                      ],
-                    ),
+                                          if (newValue == '4') {
+                                            gradoIndex = 0;
+                                          } else if (newValue == '5') {
+                                            gradoIndex = 1;
+                                          } else if (newValue == '5+') {
+                                            gradoIndex = 2;
+                                          } else if (newValue == '6a') {
+                                            gradoIndex = 3;
+                                          } else if (newValue == '6a+') {
+                                            gradoIndex = 4;
+                                          } else if (newValue == '6b') {
+                                            gradoIndex = 5;
+                                          } else if (newValue == '6b+') {
+                                            gradoIndex = 6;
+                                          } else if (newValue == '6c') {
+                                            gradoIndex = 7;
+                                          } else if (newValue == '6c+') {
+                                            gradoIndex = 8;
+                                          } else if (newValue == '7a') {
+                                            gradoIndex = 9;
+                                          } else if (newValue == '7a+') {
+                                            gradoIndex = 10;
+                                          } else if (newValue == '7b') {
+                                            gradoIndex = 11;
+                                          } else if (newValue == '7b+') {
+                                            gradoIndex = 12;
+                                          }
+                                        });
+                                      },
+                                      items: <String>[
+                                        '4',
+                                        '5',
+                                        '5+',
+                                        '6a',
+                                        '6a+',
+                                        '6b',
+                                        '6b+',
+                                        '6c',
+                                        '6c+',
+                                        '7a',
+                                        '7a+',
+                                        '7b',
+                                        '7b+'
+                                      ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                    // child: TextField(
+                                    //
+                                    //   controller: _gradoController,
+                                    //   decoration: const InputDecoration(
+                                    //     border: OutlineInputBorder(),
+                                    //     labelText: 'Grado',
+                                    //     floatingLabelBehavior: FloatingLabelBehavior.always
+                                    //   ),
+                                    // ),
+                                  ),
+
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // if (_nameController.text.isNotEmpty &&
+                                      //     uploadValidVideo == true &&
+                                      //     _gradoController.text.isNotEmpty &&
+                                      //     uploadValidImage == true) {
+                                      //   context.read<UploadVideoBloc>().add(
+                                      //         UploadVideoButtonClickedEvent(
+                                      //             fileName: _nameController.text,
+                                      //             grado: _gradoController.text,
+                                      //             desc: _descController.text,
+                                      //             category: ''),
+                                      //       );
+
+                                        const snackBar = SnackBar(
+                                          content:
+                                              Text('Uploading video, please wait...'),
+                                          backgroundColor: Colors.orange,
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+
+                                        // setState(() {
+                                        //   uploadValidVideo = false;
+                                        //   uploadValidImage = false;
+                                        //
+                                        //   _nameController.clear();
+                                        //   //_gradoController.clear();
+                                        //
+                                        //   _descController.clear();
+                                        //
+                                        //   ///BO
+                                        // });
+                                        //
+
+
+                                      context.read<UploadVideoBloc>().add(
+                                            UploadVideoButtonClickedEvent(
+                                                fileName: _nameController.text,
+                                                grado: gradoIndex,
+                                                desc: _descController.text,
+                                                category: ''),
+                                          );
+
+
+                                        const snackBar2 = SnackBar(
+                                          content:
+                                          Text('Uploaded Video'),
+                                          backgroundColor: Colors.orange,
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar2);
+
+
+                                    },
+                                    child: const Text('Upload Video'),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              uploadValidVideo == true &&
+                                                      uploadValidImage == true
+                                                  ? Colors.orange
+                                                  : Colors.grey),
+                                    ),
+                                  ),
+
+                                  ///Upload video
+                                ],
+                              ),
+                            ],
+                          ),
 
                     ///Botons
                   ],

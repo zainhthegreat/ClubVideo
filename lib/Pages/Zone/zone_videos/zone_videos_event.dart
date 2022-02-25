@@ -1,4 +1,5 @@
 import 'package:video_aws/Pages/Zone/zone_videos/zone_videos_state.dart';
+import 'package:video_aws/models/File.dart';
 
 abstract class ZoneVideosEvent {}
 
@@ -47,4 +48,9 @@ class Search extends ZoneVideosEvent {
   Search({this.grado});
 }
 
+class GetImage extends ZoneVideosEvent{
+  File file;
+
+  GetImage({required this.file});
+}
 

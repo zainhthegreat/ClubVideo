@@ -8,6 +8,11 @@ class DeleteVideoButtonClickedEvent extends MyVideosEvent{
   DeleteVideoButtonClickedEvent({required this.index});
 }
 
+class VideoPlayButtonClickedEvent extends MyVideosEvent
+{
+  int index;
+  VideoPlayButtonClickedEvent({required this.index});
+}
 
 class CategoryClickedMyVideosEvent extends MyVideosEvent {
   int categoryIndex;

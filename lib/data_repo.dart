@@ -558,7 +558,7 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     return items;
   }
 
-  Future<List<my_datastore.File>> listFilesByName(int name)
+  Future<List<my_datastore.File>> listFilesByName(String name)
   async{
     List<my_datastore.File> items =[];
 
@@ -571,6 +571,21 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
 
     return items;
   }
+
+  Future<List<my_datastore.File>> listMyFiles(String ID)
+  async{
+    List<my_datastore.File> items =[];
+
+    try {
+      items = await Amplify.DataStore.query(my_datastore.File.classType, where: my_datastore.File.OWNERID.eq(ID));
+
+    } catch (e) {
+      print("Could not query DataStore: " + e.toString());
+    }
+
+    return items;
+  }
+
 
   Future<List<my_datastore.File>> listAll(int name)
   async{
@@ -616,10 +631,11 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
     String str="";
     try {
       final GetUrlResult result =
-      await Amplify.Storage.getUrl(key: item.s3key);
-      // NOTE: This code is only for demonstration
-      // Your debug console may truncate the printed url string
-      print('Got URL: ${result.url}');
+      await Amplify.Storage.getUrl(key: item.s3key,
+      options: S3GetUrlOptions(accessLevel: StorageAccessLevel.guest)
+      );
+
+      print('Got Video URL: ${result.url}');
 
       return result.url;
     } on StorageException catch (e) {
@@ -636,9 +652,7 @@ Future<List<my_datastore.File>> listFilesByCategory(String category)
       try {
         final GetUrlResult result =
         await Amplify.Storage.getUrl(key: item.picsS3key!);
-        // NOTE: This code is only for demonstration
-        // Your debug console may truncate the printed url string
-        print('Got URL: ${result.url}');
+        print('Got PHOTO URL: ${result.url}');
 
         return result.url;
       } on StorageException catch (e) {

@@ -1,4 +1,5 @@
 import 'package:video_aws/Pages/Upload/uploading_state.dart';
+import 'package:video_aws/auth/form_submission_state.dart';
 
 class UploadVideoState {
   String video;
@@ -17,9 +18,12 @@ class UploadVideoState {
 
   String grado;
 
+  FormSubmissionState formSubmissionState;
+
   bool get isValidEmail => grado.contains('@') ? true : false;
 
   UploadVideoState({
+    this.formSubmissionState = const InitialFormState(),
     this.video = '',
     this.fileName = '',
     this.description = '',
@@ -41,6 +45,7 @@ class UploadVideoState {
     String? category,
     String? image,
     String? grado,
+    FormSubmissionState? formSubmissionState,
   }) {
     return UploadVideoState(
       video: video ?? this.video,
@@ -52,6 +57,7 @@ class UploadVideoState {
       category: category ?? this.category,
       image: image ?? this.image,
       grado: grado ?? this.grado,
+      formSubmissionState: formSubmissionState ?? this.formSubmissionState,
     );
   }
 }

@@ -67,6 +67,7 @@ class VideosNavigator extends StatelessWidget {
                       category: state.category,
                       name: state.name,
                       UIName: state.UIName,
+                      url: state.url,
                     ),
                     child: const WatchVideo(),
                   ),
@@ -101,7 +102,7 @@ class VideosNavigator extends StatelessWidget {
                     dataRepo: context.read<DataRepo>(),
                     category: state.category,
                   ),
-                  child: MyVideosUI(),
+                  child: const MyVideosUI(),
                 ),
               ),
 
@@ -137,7 +138,7 @@ class VideosNavigator extends StatelessWidget {
 
             if (page.child is MyVideosMenu) {}
 
-            if (page.child is MyVideosUI) {}
+            // if (page.child is MyVideosUI) {}
 
             if (page.child is UploadVideoMenu) {}
 

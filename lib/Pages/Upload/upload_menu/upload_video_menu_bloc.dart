@@ -21,6 +21,7 @@ class UploadVideoMenuBloc extends Bloc<UploadVideoMenuEvent, UploadVideoMenuStat
 
   _getCategoriesUploadVideoMenu(GetCategoriesUploadVideoMenuEvent event, Emitter<UploadVideoMenuState> emit) async {
 
+    await dataRepo.listItems();
     List<String> categories = await dataRepo.getCategoriesSectoresMenu();
 
     emit(state.copyWith(totalCategories: categories.length, categories: categories));

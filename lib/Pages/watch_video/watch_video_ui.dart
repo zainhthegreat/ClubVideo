@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_aws/Pages/watch_video/watch_video_bloc.dart';
@@ -14,25 +16,17 @@ class WatchVideo extends StatefulWidget {
 }
 
 class _WatchVideoState extends State<WatchVideo> {
-  final videoPlayerController = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
+
 
   late ChewieController chewieController;
 
   @override
   void initState() {
-    chewieController = ChewieController(
-        videoPlayerController: videoPlayerController,
-        aspectRatio: 16 / 9,
-        autoInitialize: true,
-        autoPlay: true,
-        looping: true,
-        showControls: true,
-        errorBuilder: (BuildContext context, error) {
-          return Center(
-            child: Text(error),
-          );
-        });
+
+
+
+    context
+        .read<WatchVideosBloc>().add(GetVideoEvent());
 
     super.initState();
   }
@@ -40,17 +34,41 @@ class _WatchVideoState extends State<WatchVideo> {
   @override
   void dispose() {
     print('dispose called');
-    videoPlayerController.dispose();
     chewieController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(context.read<WatchVideosBloc>().state.UIName)),
-      body: Center(child: Chewie(controller: chewieController)),
-    );
+
+
+    chewieController = ChewieController(
+        allowPlaybackSpeedChanging: true,
+
+        videoPlayerController: VideoPlayerController.network(context.watch<WatchVideosBloc>().state.url),
+        fullScreenByDefault: true,
+        autoInitialize: true,
+        autoPlay: true,
+        looping: false,
+        showControls: true,
+        errorBuilder: (BuildContext context, error) {
+          return Center(
+            child: Text(error),
+          );
+        });
+
+    return  Scaffold(
+        appBar: AppBar(title: Text(context.read<WatchVideosBloc>().state.UIName)),
+        body: BlocBuilder<WatchVideosBloc, WatchVideosState>(
+        builder: (BuildContext context, state) {
+      return context.watch<WatchVideosBloc>().state.loaded ?
+      Center(child: Chewie(controller: chewieController)):    const Center(child: CircularProgressIndicator.adaptive())
+    ;
+        }));
+
+
+
+
   }
 }
 

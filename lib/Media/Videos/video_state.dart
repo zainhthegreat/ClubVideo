@@ -41,6 +41,7 @@ class WatchingVideo extends VideoState{
   String category;
   String name;
   String UIName;
+  String url;
 
-  WatchingVideo({required this.category, required this.name, required this.UIName});
+  WatchingVideo({required this.category, required this.name, required this.UIName, required this.url});
 }

@@ -11,6 +11,8 @@ class ZoneVideosState {
   List<File> files;
   int totalFiles;
   List<File> searchedVideos;
+  List<String> images;
+  List<String> videoUrls;
   /// =================
 
 
@@ -33,7 +35,8 @@ class ZoneVideosState {
     required this.files,
     this.totalFiles = 0,
     required this.searchedVideos,
-
+    required this.images,
+    required this.videoUrls,
     /// ===================
 
     this.isSearching = false,
@@ -53,6 +56,8 @@ class ZoneVideosState {
     List<File>? files,
     int? totalFiles,
     List<File>? searchedVideos,
+    List<String>? images,
+    List<String>? videoUrls,
 
     /// ================
 
@@ -72,6 +77,8 @@ class ZoneVideosState {
       files: files?? this.files,
       totalFiles: totalFiles?? this.totalFiles,
       searchedVideos: searchedVideos?? this.searchedVideos,
+      images: images?? this.images,
+      videoUrls: videoUrls?? this.videoUrls,
 
       /// ==========
       totalCategories: totalCategories ?? this.totalCategories,

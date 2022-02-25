@@ -1,5 +1,6 @@
 abstract class ZoneMenuEvent {}
 
+
 class GetCategoriesZoneMenuEvent extends ZoneMenuEvent{}
 
 

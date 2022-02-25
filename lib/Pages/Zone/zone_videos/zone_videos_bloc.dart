@@ -14,7 +14,7 @@ class ZoneVideosBloc extends Bloc<ZoneVideosEvent, ZoneVideosState> {
   ZoneVideosBloc({
     required this.dataRepo,
     required this.category,
-  }) : super(ZoneVideosState(files: [], categories: [], searchedVideos: [])) {
+  }) : super(ZoneVideosState(files: [], categories: [], searchedVideos: [], images: [], videoUrls: [])) {
 
     on<DeleteVideoZoneButtonClickedEvent>(_onDeleteVideoButtonClickedEvent);
     // on<CategoryClickedZoneVideosEvent>(_getVideosInACategoryZoneVideo);
@@ -145,11 +145,27 @@ class ZoneVideosBloc extends Bloc<ZoneVideosEvent, ZoneVideosState> {
     emit(state.copyWith(formSubmissionState: FormSubmitting()));
 
     List<File> files = await dataRepo.listFilesByCategory(category);
+    List<String> images = [];
+    List<String> url = [];
 
-    print('len: ' + files.length.toString());
-    emit(state.copyWith(totalFiles: files.length, files: files));
+    for(int i = 0; i < files.length; i++){
+      String link = await dataRepo.getPhotoLink(files[i]);
+      images.add(link);
+    }
+
+    for(int i = 0; i < files.length; i++){
+      String link = await dataRepo.getVideoLink(files[i]);
+      url.add(link);
+    }
+
+    print('len: ' + images.length.toString());
+    print(url.toString());
+    emit(state.copyWith(totalFiles: files.length, files: files, images: images, videoUrls: url));
     emit(state.copyWith(formSubmissionState: FormSubmissionSuccessful()));
   }
+
+
+
 }
 
 int mapGradeToIndex(String? newValue) {

@@ -221,10 +221,15 @@ class _ZoneVideoState extends State<ZoneVideo> {
                               InkWell(
                                 splashColor: Colors.orange,
                                 onTap: () {
+
+
                                   context.read<VideosCubit>().watchVideo(
-                                      category: "category",
-                                      name: "",
-                                      UIName: "UIName");
+                                      category: context.read<ZoneVideosBloc>().state.files.elementAt(index).category,
+                                      name: context.read<ZoneVideosBloc>().state.files.elementAt(index).name,
+                                      UIName: context.read<ZoneVideosBloc>().state.files.elementAt(index).name,
+                                    url: context.read<ZoneVideosBloc>().state.videoUrls.elementAt(index),
+
+                                  );
                                 },
                                 child: Card(
                                   elevation: 10,
@@ -241,16 +246,15 @@ class _ZoneVideoState extends State<ZoneVideo> {
                                   ),
                                   child: Row(
                                     children: [
-                                      Container(
-                                        height: 75,
-                                        width: 75,
-                                        margin: const EdgeInsets.only(
-                                            right: 10,
-                                            left: 5,
-                                            bottom: 10,
-                                            top: 10),
-                                        color: Colors.orangeAccent,
+
+                                      Image.network(context.watch<ZoneVideosBloc>().state.images[index],
+                                      width: 75,
+                                          height: 75,
+                                        errorBuilder: (context, url, error) => Expanded(flex: 2,child: Container(color: Colors.transparent)),
+
+
                                       ),
+                                      const SizedBox(width: 10,),
                                       Column(
                                         children: [
                                           Text(
@@ -270,7 +274,9 @@ class _ZoneVideoState extends State<ZoneVideo> {
                                                     .name,
                                             style: const TextStyle(
                                               fontSize: 15,
+                                              fontWeight: FontWeight.bold,
                                             ),
+                                            textAlign: TextAlign.start,
                                           ),
                                           Text(
                                             !context
@@ -288,6 +294,7 @@ class _ZoneVideoState extends State<ZoneVideo> {
                                                     .searchedVideos[index]
                                                     .grade),
                                             style: const TextStyle(
+
                                               fontSize: 15,
                                             ),
                                           ),
@@ -302,7 +309,7 @@ class _ZoneVideoState extends State<ZoneVideo> {
                                           ),
                                         ],
                                       ),
-                                      const Expanded(child: SizedBox()),
+                                      const Expanded(flex: 5,child: SizedBox()),
                                     ],
                                   ),
                                 ),
@@ -318,6 +325,9 @@ class _ZoneVideoState extends State<ZoneVideo> {
       ),
     );
   }
+
+
+
 }
 
 Color getColorFromGrade(int grade) {
@@ -388,3 +398,4 @@ String getTextFromGrade(int grade) {
 
   return grado;
 }
+
