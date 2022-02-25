@@ -47,7 +47,7 @@ class _WatchVideoState extends State<WatchVideo> {
         videoPlayerController: VideoPlayerController.network(context.watch<WatchVideosBloc>().state.url),
         fullScreenByDefault: true,
         autoInitialize: true,
-        autoPlay: true,
+        autoPlay: false,
         looping: false,
         showControls: true,
         errorBuilder: (BuildContext context, error) {

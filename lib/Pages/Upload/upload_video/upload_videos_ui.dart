@@ -189,6 +189,21 @@ class _UploadVideoState extends State<UploadVideo> {
                       height: 20,
                     ),
 
+                    TextField(
+                      controller: _descController,
+                      minLines: null,
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Description',
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+
                     context.watch<UploadVideoBloc>().state.formSubmissionState
                             is FormSubmitting
                         ? const Center(

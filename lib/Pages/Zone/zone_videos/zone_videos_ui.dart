@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Media/Videos/videos_cubit.dart';
@@ -221,15 +222,31 @@ class _ZoneVideoState extends State<ZoneVideo> {
                               InkWell(
                                 splashColor: Colors.orange,
                                 onTap: () {
-
-
                                   context.read<VideosCubit>().watchVideo(
-                                      category: context.read<ZoneVideosBloc>().state.files.elementAt(index).category,
-                                      name: context.read<ZoneVideosBloc>().state.files.elementAt(index).name,
-                                      UIName: context.read<ZoneVideosBloc>().state.files.elementAt(index).name,
-                                    url: context.read<ZoneVideosBloc>().state.videoUrls.elementAt(index),
-
-                                  );
+                                        category: context
+                                            .read<ZoneVideosBloc>()
+                                            .state
+                                            .files
+                                            .elementAt(index)
+                                            .category,
+                                        name: context
+                                            .read<ZoneVideosBloc>()
+                                            .state
+                                            .files
+                                            .elementAt(index)
+                                            .name,
+                                        UIName: context
+                                            .read<ZoneVideosBloc>()
+                                            .state
+                                            .files
+                                            .elementAt(index)
+                                            .name,
+                                        url: context
+                                            .read<ZoneVideosBloc>()
+                                            .state
+                                            .videoUrls
+                                            .elementAt(index),
+                                      );
                                 },
                                 child: Card(
                                   elevation: 10,
@@ -244,72 +261,144 @@ class _ZoneVideoState extends State<ZoneVideo> {
                                       width: 2,
                                     ),
                                   ),
-                                  child: Row(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-
-                                      Image.network(context.watch<ZoneVideosBloc>().state.images[index],
-                                      width: 75,
-                                          height: 75,
-                                        errorBuilder: (context, url, error) => Expanded(flex: 2,child: Container(color: Colors.transparent)),
-
-
-                                      ),
-                                      const SizedBox(width: 10,),
-                                      Column(
-                                        children: [
-                                          Text(
-                                            !context
-                                                    .watch<ZoneVideosBloc>()
-                                                    .state
-                                                    .isSearching
-                                                ? context
-                                                    .read<ZoneVideosBloc>()
-                                                    .state
-                                                    .files[index]
-                                                    .name
-                                                : context
-                                                    .read<ZoneVideosBloc>()
-                                                    .state
-                                                    .searchedVideos[index]
-                                                    .name,
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              !context
+                                                      .watch<ZoneVideosBloc>()
+                                                      .state
+                                                      .isSearching
+                                                  ? context
+                                                      .read<ZoneVideosBloc>()
+                                                      .state
+                                                      .files[index]
+                                                      .name
+                                                  : context
+                                                      .read<ZoneVideosBloc>()
+                                                      .state
+                                                      .searchedVideos[index]
+                                                      .name,
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.start,
                                             ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          Text(
-                                            !context
-                                                    .watch<ZoneVideosBloc>()
-                                                    .state
-                                                    .isSearching
-                                                ? getTextFromGrade(context
-                                                    .read<ZoneVideosBloc>()
-                                                    .state
-                                                    .files[index]
-                                                    .grade)
-                                                : getTextFromGrade(context
-                                                    .read<ZoneVideosBloc>()
-                                                    .state
-                                                    .searchedVideos[index]
-                                                    .grade),
-                                            style: const TextStyle(
-
-                                              fontSize: 15,
+                                            Column(
+                                              children: [
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text(
+                                                  !context
+                                                          .watch<
+                                                              ZoneVideosBloc>()
+                                                          .state
+                                                          .isSearching
+                                                      ? getTextFromGrade(context
+                                                          .read<
+                                                              ZoneVideosBloc>()
+                                                          .state
+                                                          .files[index]
+                                                          .grade)
+                                                      : getTextFromGrade(context
+                                                          .read<
+                                                              ZoneVideosBloc>()
+                                                          .state
+                                                          .searchedVideos[index]
+                                                          .grade),
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  color: getColorFromGrade(
+                                                      context
+                                                          .read<
+                                                              ZoneVideosBloc>()
+                                                          .state
+                                                          .files[index]
+                                                          .grade),
+                                                  height: 15,
+                                                  width: 15,
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          Container(
-                                            color: getColorFromGrade(context
-                                                .read<ZoneVideosBloc>()
-                                                .state
-                                                .files[index]
-                                                .grade),
-                                            height: 15,
-                                            width: 15,
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                      const Expanded(flex: 5,child: SizedBox()),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Text(
+                                          !context
+                                                  .watch<ZoneVideosBloc>()
+                                                  .state
+                                                  .isSearching
+                                              ? context
+                                                  .read<ZoneVideosBloc>()
+                                                  .state
+                                                  .files[index]
+                                                  .description!
+                                              : context
+                                                  .read<ZoneVideosBloc>()
+                                                  .state
+                                                  .searchedVideos[index]
+                                                  .description!,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                            bottomRight: Radius.circular(20),
+                                            bottomLeft: Radius.circular(20)),
+                                        child: Image.network(
+                                          context
+                                              .watch<ZoneVideosBloc>()
+                                              .state
+                                              .images[index],
+                                          errorBuilder: (context, url, error) =>
+                                              Expanded(
+                                                  flex: 2,
+                                                  child: Container(
+                                                      color:
+                                                          Colors.transparent)),
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -326,8 +415,74 @@ class _ZoneVideoState extends State<ZoneVideo> {
     );
   }
 
-
-
+  // Row(
+  // children: [
+  //
+  // Image.network(context.watch<ZoneVideosBloc>().state.images[index],
+  // width: 75,
+  // height: 75,
+  // errorBuilder: (context, url, error) => Expanded(flex: 2,child: Container(color: Colors.transparent)),
+  //
+  //
+  // ),
+  // const SizedBox(width: 10,),
+  // Column(
+  // children: [
+  // Text(
+  // !context
+  //     .watch<ZoneVideosBloc>()
+  //     .state
+  //     .isSearching
+  // ? context
+  //     .read<ZoneVideosBloc>()
+  //     .state
+  //     .files[index]
+  //     .name
+  //     : context
+  //     .read<ZoneVideosBloc>()
+  //     .state
+  //     .searchedVideos[index]
+  //     .name,
+  // style: const TextStyle(
+  // fontSize: 15,
+  // fontWeight: FontWeight.bold,
+  // ),
+  // textAlign: TextAlign.start,
+  // ),
+  // Text(
+  // !context
+  //     .watch<ZoneVideosBloc>()
+  //     .state
+  //     .isSearching
+  // ? getTextFromGrade(context
+  //     .read<ZoneVideosBloc>()
+  //     .state
+  //     .files[index]
+  //     .grade)
+  //     : getTextFromGrade(context
+  //     .read<ZoneVideosBloc>()
+  //     .state
+  //     .searchedVideos[index]
+  //     .grade),
+  // style: const TextStyle(
+  //
+  // fontSize: 15,
+  // ),
+  // ),
+  // Container(
+  // color: getColorFromGrade(context
+  //     .read<ZoneVideosBloc>()
+  //     .state
+  //     .files[index]
+  //     .grade),
+  // height: 15,
+  // width: 15,
+  // ),
+  // ],
+  // ),
+  // const Expanded(flex: 5,child: SizedBox()),
+  // ],
+  // ),
 }
 
 Color getColorFromGrade(int grade) {
@@ -398,4 +553,3 @@ String getTextFromGrade(int grade) {
 
   return grado;
 }
-
