@@ -1,8 +1,10 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:video_compress/video_compress.dart';
 import 'Dart:io';
 import 'auth/auth_repo.dart';
 
@@ -186,6 +188,11 @@ class DataRepo {
       int grade,
       FilePickerResult? video,
       FilePickerResult? photo) async {
+
+
+
+
+
     AuthRepo authRepo = AuthRepo();
     String userID = await authRepo.getUserIDFromAttributes();
     final item = my_datastore.File(

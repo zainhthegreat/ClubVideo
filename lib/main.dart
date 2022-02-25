@@ -6,6 +6,8 @@ import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_aws/Pages/Homepage/homepage_ui.dart';
+import 'package:video_aws/compress_video.dart';
 import 'package:video_aws/session_cubit.dart';
 import 'amplifyconfiguration.dart';
 import 'app_navigator.dart';
@@ -65,6 +67,7 @@ class _MyAppState extends State<MyApp> {
               trackHeight: 20),
           colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orangeAccent)
       ),
+
 
       home: _isAmplifyConfigured
           ? RepositoryProvider(

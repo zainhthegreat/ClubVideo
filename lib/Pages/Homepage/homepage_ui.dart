@@ -6,6 +6,7 @@ import 'package:video_aws/Media/Videos/videos_cubit.dart';
 import 'package:video_aws/models/ModelProvider.dart';
 
 
+import '../../compress_video.dart';
 import 'homepage_bloc.dart';
 import 'homepage_event.dart';
 import 'homepage_state.dart';
@@ -335,7 +336,66 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),    ///Upload Video
 
-                      SizedBox(height: 40,),
+                      SizedBox(height: 25,),
+
+                      Card(
+
+                        elevation: 10,
+                        color: Colors.red,
+                        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20), // if you need this
+                          side: const BorderSide(
+                            color: Colors.orange,
+                            width: 2,
+                          ),
+                        ),
+
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder:
+                                (context)=> MyHomePage2()
+                            ));
+                          },
+
+                          child: Container(
+                              padding: const EdgeInsets.all(10,),
+                              decoration: BoxDecoration(
+                                color: Colors.white60,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+
+                              child:  Row(
+                                children: [
+                                  Container( height: 50,
+                                    margin: const EdgeInsets.only(right: 20, left: 5,),
+                                    child: const Image(
+                                      image: AssetImage('assets/glogo.png'),
+                                    ),
+                                  ),
+
+                                  const Text('Compress Video',
+                                    style: TextStyle(
+                                      fontSize: 23,
+                                    ),),
+
+                                  const Expanded(child: SizedBox()),
+
+                                  const Icon (Icons.play_arrow_outlined,
+
+                                    size: 40,
+                                    color: Colors.orange,),
+
+                                  const SizedBox(width: 10,)
+
+                                ],
+                              )//declare your widget here
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 40,),
                     ]
                 )
             );
