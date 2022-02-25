@@ -2,6 +2,10 @@ abstract class MyVideosEvent {}
 
 class GetMyVideosEvent extends MyVideosEvent{}
 
+class LoadMyVideosEvent extends MyVideosEvent{}
+
+class DeleteEverythingEvent extends MyVideosEvent{}
+
 class DeleteVideoButtonClickedEvent extends MyVideosEvent{
   int index;
 

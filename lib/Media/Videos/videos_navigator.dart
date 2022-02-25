@@ -19,6 +19,7 @@ import 'package:video_aws/Pages/Zone/zone_videos/zone_videos_bloc.dart';
 import 'package:video_aws/Pages/Zone/zone_videos/zone_videos_ui.dart';
 import 'package:video_aws/Pages/watch_video/watch_video_bloc.dart';
 import 'package:video_aws/Pages/watch_video/watch_video_ui.dart';
+import 'package:video_aws/auth/auth_repo.dart';
 
 import '../../data_repo.dart';
 
@@ -100,6 +101,7 @@ class VideosNavigator extends StatelessWidget {
                 child: BlocProvider(
                   create: (BuildContext context) => MyVideosBloc(
                     dataRepo: context.read<DataRepo>(),
+                    authRepo: context.read<AuthRepo>(),
                     category: state.category,
                   ),
                   child: const MyVideosUI(),

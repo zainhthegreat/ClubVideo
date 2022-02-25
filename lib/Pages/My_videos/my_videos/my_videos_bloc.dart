@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_aws/auth/auth_repo.dart';
+import 'package:video_aws/models/File.dart';
 
 import '../../../data_repo.dart';
 import 'my_videos_event.dart';
@@ -9,11 +11,14 @@ import 'my_videos_state.dart';
 class MyVideosBloc extends Bloc<MyVideosEvent, MyVideosState>{
 
   DataRepo dataRepo;
+  AuthRepo authRepo;
   String category = "";
 
-  MyVideosBloc({required this.dataRepo, required this.category}) : super(MyVideosState(items: null)){
+  MyVideosBloc({required this.dataRepo, required this.category, required this.authRepo}) : super(MyVideosState(items: [],urls: [], categories: category)){
     on<DeleteVideoButtonClickedEvent>(_onDeleteVideoButtonClickedEvent);
     on<VideoPlayButtonClickedEvent>(_playVideo);
+    on<LoadMyVideosEvent>(_load);
+    on<DeleteEverythingEvent>(_deleteAll);
     // on<GetMyVideosEvent>(_getMyVideos);
     //
     // on<CategoryClickedMyVideosEvent>(_getVideosInACategoryMyVideos);
@@ -22,11 +27,42 @@ class MyVideosBloc extends Bloc<MyVideosEvent, MyVideosState>{
 
   FutureOr<void> _onDeleteVideoButtonClickedEvent(DeleteVideoButtonClickedEvent event,
       Emitter<MyVideosState> emit) async {
-      dataRepo.deleteFile(state.items.elementAt(event.index));
+
+    dataRepo.deleteFile(state.items.elementAt(event.index));
+
+    emit(state.copyWith());
+
+
+
   }
 
   Future<void> _playVideo(VideoPlayButtonClickedEvent event, Emitter<MyVideosState> emit)
   async {
+
+  }
+
+  Future<void> _load(LoadMyVideosEvent event, Emitter<MyVideosState> emit)
+  async{
+    print("LOADING");
+
+    String id= await authRepo.getUserIDFromAttributes();
+    List<File> items=await dataRepo.listMyFilesByCategory(id,category);
+    List<String> urls=[];
+    for(int index=0;index<items.length;index++)
+      {
+        urls.add(await dataRepo.getPhotoLink(items.elementAt(index)));
+      }
+
+    emit(state.copyWith(items: items, urls: urls));
+
+  }
+
+  Future<void> _deleteAll(DeleteEverythingEvent event, Emitter<MyVideosState> emit)
+  async{
+    print("Deleting");
+    String id=await authRepo.getUserIDFromAttributes();
+    print("Deleting");
+    await dataRepo.deleteCategory(category, id);
 
   }
 
