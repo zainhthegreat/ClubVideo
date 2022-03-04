@@ -151,6 +151,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Media/Videos/videos_cubit.dart';
+import 'package:video_aws/models/FileType.dart';
 
 import 'my_videos_bloc.dart';
 import 'my_videos_event.dart';
@@ -298,7 +299,14 @@ class _MyVideosUIState extends State<MyVideosUI> {
         body: Stack(children: [
           BlocBuilder<MyVideosBloc, MyVideosState>(
             builder: (BuildContext context, state) {
-              return context.watch<MyVideosBloc>().state.items.isEmpty
+
+              if(context.watch<MyVideosBloc>().state.items.isEmpty) {
+                return const Center(child: Text("No Content Here"));
+              }
+
+
+
+              return context.watch<MyVideosBloc>().state.items.first.type==FileType.PHOTOS
                   ? const Center(
                       child: CircularProgressIndicator(
                         color: Colors.teal,

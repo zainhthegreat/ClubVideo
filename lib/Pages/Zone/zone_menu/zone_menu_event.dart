@@ -17,3 +17,6 @@ class SearchEventZoneMenu extends ZoneMenuEvent{
   String searchedKeyword;
   SearchEventZoneMenu({required this.searchedKeyword});
 }
+
+class DeleteEverything extends ZoneMenuEvent
+{}

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/Pages/Zone/zone_menu/zone_menu_event.dart';
 import 'package:video_aws/Pages/Zone/zone_menu/zone_menu_state.dart';
+import 'package:video_aws/Pages/Zone/zone_videos/zone_videos_event.dart';
 import 'package:video_aws/auth/form_submission_state.dart';
 
 import '../../../data_repo.dart';
@@ -17,7 +18,19 @@ class ZoneMenuBloc extends Bloc<ZoneMenuEvent, ZoneMenuState>{
     on<GetCategoriesZoneMenuEvent>(_getCategoriesZoneMenu);
     on<RefreshListsZoneMenuEvent>(_refreshListsZoneMenu);
     on<SearchEventZoneMenu>(_searchVideosZoneMenu);
+    on<DeleteEverything>(_deleteEverything);
   }
+
+_deleteEverything(DeleteEverything event, Emitter<ZoneMenuState> emit)
+async{
+
+    emit(state.copyWith(deleting: true));
+    dataRepo.deleteEverything();
+    await Future.delayed(const Duration(seconds: 2), (){});
+
+    emit(state.copyWith(deleting: false));
+
+}
 
 
   _getCategoriesZoneMenu(GetCategoriesZoneMenuEvent event, Emitter<ZoneMenuState> emit) async {

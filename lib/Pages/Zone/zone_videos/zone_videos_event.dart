@@ -53,4 +53,3 @@ class GetImage extends ZoneVideosEvent{
 
   GetImage({required this.file});
 }
-

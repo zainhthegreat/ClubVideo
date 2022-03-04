@@ -24,6 +24,8 @@ class _ZoneMenuState extends State<ZoneMenu> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
@@ -47,6 +49,23 @@ class _ZoneMenuState extends State<ZoneMenu> {
             style: TextStyle(
                 fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.delete_forever,
+                color: Colors.red,
+                size: 40,
+              ),
+
+
+              onPressed: () async {
+                context.read<ZoneMenuBloc>().add(DeleteEverything());
+              },
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
           centerTitle: true,
           elevation: 5,
           toolbarHeight: 70,
@@ -58,8 +77,13 @@ class _ZoneMenuState extends State<ZoneMenu> {
         ),
         body: BlocBuilder<ZoneMenuBloc, ZoneMenuState>(
           builder: (BuildContext context, state) {
-            return context.watch<ZoneMenuBloc>().state.formSubmissionState
-                    is FormSubmitting
+
+
+
+
+
+            return (context.watch<ZoneMenuBloc>().state.formSubmissionState
+                    is FormSubmitting || context.watch<ZoneMenuBloc>().state.deleting==true)
                 ? const Center(
                     child: CircularProgressIndicator(
                       color: Colors.teal,

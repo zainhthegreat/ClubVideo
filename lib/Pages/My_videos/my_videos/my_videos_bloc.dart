@@ -2,10 +2,21 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_aws/auth/auth_repo.dart';
 import 'package:video_aws/models/File.dart';
+import 'package:video_aws/models/FileType.dart';
 
 import '../../../data_repo.dart';
 import 'my_videos_event.dart';
 import 'my_videos_state.dart';
+
+final List<File> item = [File(
+    name: "null",
+    type: FileType.PHOTOS,
+    category: "null",
+    description: " null",
+    ownerID: "null",
+    grade: 1020,
+    s3key: "null",
+    picsS3key: "null")];
 
 
 class MyVideosBloc extends Bloc<MyVideosEvent, MyVideosState>{
@@ -14,7 +25,7 @@ class MyVideosBloc extends Bloc<MyVideosEvent, MyVideosState>{
   AuthRepo authRepo;
   String category = "";
 
-  MyVideosBloc({required this.dataRepo, required this.category, required this.authRepo}) : super(MyVideosState(items: [],urls: [], categories: category)){
+  MyVideosBloc({required this.dataRepo, required this.category, required this.authRepo}) : super(MyVideosState(items: item,urls: [], categories: category)){
     on<DeleteVideoButtonClickedEvent>(_onDeleteVideoButtonClickedEvent);
     on<VideoPlayButtonClickedEvent>(_playVideo);
     on<LoadMyVideosEvent>(_load);
@@ -53,6 +64,7 @@ class MyVideosBloc extends Bloc<MyVideosEvent, MyVideosState>{
         urls.add(await dataRepo.getPhotoLink(items.elementAt(index)));
       }
 
+    state.items.clear();
     emit(state.copyWith(items: items, urls: urls));
 
   }

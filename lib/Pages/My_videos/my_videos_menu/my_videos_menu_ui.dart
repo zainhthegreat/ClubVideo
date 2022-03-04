@@ -117,8 +117,8 @@ class _MyVideosMenuState extends State<MyVideosMenu> {
                           child: Row(
                             children: [
                               Container( height: 50,
-                                margin: EdgeInsets.only(right: 20, left: 10, bottom: 10, top: 10),
-                                child: Image(
+                                margin: const EdgeInsets.only(right: 20, left: 10, bottom: 10, top: 10),
+                                child: const Image(
                                   image: AssetImage('assets/glogo.png'),
                                 ),
                               ),
@@ -128,9 +128,9 @@ class _MyVideosMenuState extends State<MyVideosMenu> {
                                 style: const TextStyle(fontSize: 24),
                               ),
 
-                              Expanded(child: SizedBox()),
+                              const Expanded(child: SizedBox()),
 
-                              Icon (Icons.play_arrow_outlined,
+                              const Icon (Icons.play_arrow_outlined,
 
                                 size: 40,
                                 color: Colors.orange,),

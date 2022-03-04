@@ -9,8 +9,10 @@ class ZoneMenuState {
   List<String> videosNames;
   String searchedKeyword;
   FormSubmissionState formSubmissionState;
+  bool deleting;
 
   ZoneMenuState({
+    this.deleting=false,
     this.totalCategories = 0,
     this.currentCategory = -1,
     this.totalVideosInCurrentCategory = 0,
@@ -30,8 +32,10 @@ class ZoneMenuState {
     List<String>? videosNames,
     String? searchedKeyword,
     FormSubmissionState? formSubmissionState,
+    bool? deleting
   }) {
     return ZoneMenuState(
+      deleting: deleting?? this.deleting,
       totalCategories: totalCategories ?? this.totalCategories,
       currentCategory: currentCategory ?? this.currentCategory,
       totalVideosInCurrentCategory:

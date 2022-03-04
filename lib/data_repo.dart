@@ -309,7 +309,7 @@ class DataRepo {
     return items;
   }
 
-  Future<List<my_datastore.File>> listAll(int name) async {
+  Future<List<my_datastore.File>> listAll() async {
     List<my_datastore.File> items = [];
 
     try {
@@ -411,4 +411,17 @@ class DataRepo {
       print("Could not query DataStore: " + e.toString());
     }
   }
+
+  Future<void> deleteEverything()
+  async {
+    List<my_datastore.File> items = await listAll();
+
+    for(int i=0;i<items.length;i++)
+      {
+        deleteFile(items[i]);
+      }
+
+
+  }
+
 }
